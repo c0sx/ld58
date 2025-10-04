@@ -23,7 +23,7 @@ func _on_enter(_body) -> void:
 		remove_child(area_mesh)
 		area_mesh = null
 		
-	emit_signal('enter_working_zone')
+		emit_signal('enter_working_zone')
 
 func _on_exit(_body) -> void:
 	var material = StandardMaterial3D.new()

@@ -1,4 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://cd8vh3bcgo2h8"]
+[gd_scene load_steps=6 format=3 uid="uid://cd8vh3bcgo2h8"]
+
+[sub_resource type="GDScript" id="GDScript_yg4ii"]
+script/source = "class_name Tube
+extends Node3D
+"
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_utvtq"]
 
@@ -11,6 +16,7 @@ albedo_color = Color(0.0862745, 0.0862745, 0.0862745, 1)
 albedo_color = Color(0.57, 0, 0, 1)
 
 [node name="Tube" type="Node3D"]
+script = SubResource("GDScript_yg4ii")
 
 [node name="TubeMesh" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 2, 0, 0, 0, 1, 2.08165e-12, 2, 2.08165e-12)
