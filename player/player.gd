@@ -38,8 +38,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventKey and event.keycode == KEY_ESCAPE:
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 		
-	if event.is_action_pressed("interact"):
-		print("interact")
+	if event.is_action_pressed("interact") and not event.is_echo():
 		_interact()
 
 func set_interactable(interactable: Node3D) -> void:

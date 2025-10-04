@@ -18,14 +18,20 @@ func _ready() -> void:
 	collision_area.scale = Vector3(radius, radius, radius)
 
 	
-func _on_enter(_body) -> void:
+func _on_enter(body) -> void:
+	if not body is Player:
+		return 
+		
 	if area_mesh:
 		remove_child(area_mesh)
 		area_mesh = null
 		
 		emit_signal('enter_working_zone')
 
-func _on_exit(_body) -> void:
+func _on_exit(body) -> void:
+	if not body is Player:
+		return 
+		
 	var material = StandardMaterial3D.new()
 	material.albedo_color = "#ff0000"
 	material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA

@@ -4,6 +4,7 @@ extends Node3D
 @onready var _working_zone: WorkingZone = $WorkingZone
 @onready var _player: Player = $Player
 @onready var _button: TubeButton = $TubeButton
+@onready var _tube: Tube = $Tube
 
 var _first_interacted = false
 
@@ -34,3 +35,5 @@ func _on_button_pressed() -> void:
 	if not _first_interacted:
 		_first_interacted = true
 		_ui.hide_message()
+		
+	_tube.spawn()

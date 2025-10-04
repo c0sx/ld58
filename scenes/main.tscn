@@ -1,10 +1,11 @@
-[gd_scene load_steps=12 format=3 uid="uid://cgwgn3d0bsk5b"]
+[gd_scene load_steps=14 format=3 uid="uid://cgwgn3d0bsk5b"]
 
 [ext_resource type="Script" path="res://scenes/main-scene.gd" id="1_bir4h"]
 [ext_resource type="PackedScene" uid="uid://b7kqgb07sf7gj" path="res://work-zone/work-zone.tscn" id="1_k2p32"]
 [ext_resource type="PackedScene" uid="uid://b6cobyf05kb1" path="res://player/player.tscn" id="1_ms8d2"]
 [ext_resource type="PackedScene" uid="uid://cd8vh3bcgo2h8" path="res://tube/tube.tscn" id="2_dp1qa"]
 [ext_resource type="PackedScene" uid="uid://cauq8w1d5shxk" path="res://tube-button/tube-button.tscn" id="3_u0ha8"]
+[ext_resource type="PackedScene" uid="uid://d30t0f1qjqfjd" path="res://loot-item/loot-item.tscn" id="5_67sra"]
 [ext_resource type="PackedScene" uid="uid://bfjd0cwaleh0b" path="res://ui/ui.tscn" id="6_0dwyr"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_tcvn7"]
@@ -26,6 +27,9 @@ glow_enabled = true
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gumpb"]
 albedo_color = Color(0.0862745, 0.0862745, 0.0862745, 1)
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_1uxj4"]
+data = PackedVector3Array(1, 0, 1, -1, 0, 1, 1, 0, -1, -1, 0, 1, -1, 0, -1, 1, 0, -1)
 
 [node name="Main" type="Node3D"]
 script = ExtResource("1_bir4h")
@@ -49,13 +53,19 @@ transform = Transform3D(50, 0, 0, 0, 1, 0, 0, 0, 50, 0, 0, 0)
 mesh = SubResource("PlaneMesh_85ed2")
 surface_material_override/0 = SubResource("StandardMaterial3D_gumpb")
 
+[node name="StaticBody3D" type="StaticBody3D" parent="Plane"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Plane/StaticBody3D"]
+shape = SubResource("ConcavePolygonShape3D_1uxj4")
+
 [node name="WorkingZone" parent="." instance=ExtResource("1_k2p32")]
 
 [node name="Player" parent="." instance=ExtResource("1_ms8d2")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 1, 20)
 
 [node name="Tube" parent="." instance=ExtResource("2_dp1qa")]
-transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 2.08165e-12, 10, 2.08165e-12)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 10, 2.08165e-12)
+item_scene = ExtResource("5_67sra")
 
 [node name="TubeButton" parent="." instance=ExtResource("3_u0ha8")]
 transform = Transform3D(-0.223795, 0, -0.974636, 0, 1, 0, 0.974636, 0, -0.223795, 2.08165e-12, 2.08165e-12, 10)
