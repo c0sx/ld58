@@ -1,7 +1,9 @@
-[gd_scene load_steps=12 format=3 uid="uid://cauq8w1d5shxk"]
+[gd_scene load_steps=13 format=3 uid="uid://cauq8w1d5shxk"]
 
 [ext_resource type="Script" path="res://tube-button/tube-button.gd" id="1_xfi7o"]
 [ext_resource type="Texture2D" uid="uid://r0eq325ug4y7" path="res://tube-button/cursoraseprite.png" id="2_ecso0"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_unqll"]
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_vg6b1"]
 
@@ -37,6 +39,11 @@ _data = {
 
 [node name="TubeButton" type="Node3D"]
 script = ExtResource("1_xfi7o")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+shape = SubResource("CylinderShape3D_unqll")
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
 transform = Transform3D(0.3, 0, 0, 0, 0.5, 0, 0, 0, 0.3, 2.08165e-12, 0.5, 2.08165e-12)

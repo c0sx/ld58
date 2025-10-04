@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://dsve5jxi3op64"]
+
+[ext_resource type="Script" path="res://quota/quota.gd" id="1_co7yq"]
+
+[node name="Quota" type="Node3D"]
+script = ExtResource("1_co7yq")
+
+[node name="Timer" type="Timer" parent="."]
+process_mode = 3
+
+[node name="QuotaTimer" type="Timer" parent="."]

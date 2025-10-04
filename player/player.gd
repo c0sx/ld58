@@ -3,21 +3,25 @@ extends CharacterBody3D
 
 @export_group("Player")
 @export var player_speed: int = 10
+@export var player_pick_duration: float = 1.5
 
 @export_group("Mouse")
 @export var mouse_sensitivity = 0.2
 
 @onready var camera: Camera3D = $Camera3D
 
+signal money_changed(value: float)
+
 var _rotation: Vector3 = Vector3.ZERO
-var _target_velocity: Vector3 = Vector3.ZERO
 var _vertical_looking_limit: int = 60
 var _interactable: Node3D
 
+var _money: float = 0.0
+
 func _ready() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-
-func _physics_process(delta: float) -> void:
+	
+func _physics_process(_delta: float) -> void:
 	var input_dir = Input.get_vector("move_left", "move_right", "move_forward", "move_back")
 	var direction = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 
@@ -45,5 +49,19 @@ func set_interactable(interactable: Node3D) -> void:
 	_interactable = interactable
 
 func _interact() -> void:
-	if _interactable and "interact" in _interactable:
+	if not _interactable:
+		return
+		
+	if _interactable is TubeButton:
 		_interactable.interact()
+		
+func give_reward(value: int) -> void:
+	_money += value
+	emit_signal("money_changed", _money)
+
+func has_enough_money(value: float) -> bool:
+	return _money >= value
+	
+func withdraw_money(value: float) -> void:
+	_money -= value
+	emit_signal("money_changed", _money)

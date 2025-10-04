@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://cgwgn3d0bsk5b"]
+[gd_scene load_steps=15 format=3 uid="uid://cgwgn3d0bsk5b"]
 
 [ext_resource type="Script" path="res://scenes/main-scene.gd" id="1_bir4h"]
 [ext_resource type="PackedScene" uid="uid://b7kqgb07sf7gj" path="res://work-zone/work-zone.tscn" id="1_k2p32"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://cauq8w1d5shxk" path="res://tube-button/tube-button.tscn" id="3_u0ha8"]
 [ext_resource type="PackedScene" uid="uid://d30t0f1qjqfjd" path="res://loot-item/loot-item.tscn" id="5_67sra"]
 [ext_resource type="PackedScene" uid="uid://bfjd0cwaleh0b" path="res://ui/ui.tscn" id="6_0dwyr"]
+[ext_resource type="PackedScene" uid="uid://dsve5jxi3op64" path="res://quota/quota.tscn" id="7_mm867"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_tcvn7"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -69,6 +70,9 @@ item_scene = ExtResource("5_67sra")
 
 [node name="TubeButton" parent="." instance=ExtResource("3_u0ha8")]
 transform = Transform3D(-0.223795, 0, -0.974636, 0, 1, 0, 0.974636, 0, -0.223795, 2.08165e-12, 2.08165e-12, 10)
+
+[node name="Quota" parent="." instance=ExtResource("7_mm867")]
+quota_timer = 30.0
 
 [node name="UI" parent="." instance=ExtResource("6_0dwyr")]
 mouse_filter = 1

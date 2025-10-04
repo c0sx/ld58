@@ -16,7 +16,6 @@ func _ready() -> void:
 	working_area.body_exited.connect(_on_exit)
 	
 	collision_area.scale = Vector3(radius, radius, radius)
-
 	
 func _on_enter(body) -> void:
 	if not body is Player:
@@ -37,8 +36,8 @@ func _on_exit(body) -> void:
 	material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
 	
 	area_mesh = CSGTorus3D.new()
-	area_mesh.inner_radius = radius / 2
-	area_mesh.outer_radius = radius / 2 + 0.05
+	area_mesh.inner_radius = radius / 2.0
+	area_mesh.outer_radius = radius / 2.0 + 0.05
 	area_mesh.material_override = material
 	add_child(area_mesh)
 		

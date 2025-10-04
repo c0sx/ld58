@@ -5,6 +5,7 @@ extends Node3D
 @onready var _player: Player = $Player
 @onready var _button: TubeButton = $TubeButton
 @onready var _tube: Tube = $Tube
+@onready var _quota: Quota = $Quota
 
 var _first_interacted = false
 
@@ -16,7 +17,16 @@ func _ready() -> void:
 	_button.exit_button_area.connect(_on_exit_button_area)
 	_button.pressed.connect(_on_button_pressed)
 	
+	_player.money_changed.connect(_on_money_changed)
+	
+	_quota.quota_changed.connect(_on_quota_changed)
+	_quota.quota_timer_tick.connect(_on_quota_timer_tick)
+	_quota.quota_timer_completed.connect(_on_quota_timer_completed)
+	
 	_ui.welcome_message()
+	_ui.update_quota_value(_quota.quota_value)
+	_ui.update_quota_timer(_quota.quota_timer)
+	_quota.start()
 
 func _on_enter_working_zone() -> void:
 	_ui.hide_message()
@@ -37,3 +47,26 @@ func _on_button_pressed() -> void:
 		_ui.hide_message()
 		
 	_tube.spawn()
+
+func _on_money_changed(value: float) -> void:
+	_ui.update_money_value(value)
+	
+	var current_quota = _quota.quota_value
+	_ui.update_quota_reached(value >= current_quota)
+
+func _on_quota_changed(quota: Quota) -> void:
+	_ui.update_quota_value(quota.quota_value)
+	_ui.update_quota_timer(quota.quota_timer)
+
+func _on_quota_timer_tick(remaining: float) -> void:
+	_ui.update_quota_timer(remaining)
+
+func _on_quota_timer_completed() -> void:
+	var quota_value = _quota.quota_value
+	if _player.has_enough_money(quota_value):
+		_player.withdraw_money(quota_value)
+		_quota.next_quota()
+		_quota.start()
+	else:
+		print("Game over")
+		get_tree().quit()
