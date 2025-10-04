@@ -8,6 +8,7 @@ extends Node3D
 @onready var _quota: Quota = $Quota
 
 var _first_interacted = false
+var _is_quota_started = false
 
 func _ready() -> void:
 	_working_zone.enter_working_zone.connect(_on_enter_working_zone)
@@ -19,14 +20,14 @@ func _ready() -> void:
 	
 	_player.money_changed.connect(_on_money_changed)
 	
+	_quota.quota_started.connect(_on_quota_started)
 	_quota.quota_changed.connect(_on_quota_changed)
 	_quota.quota_timer_tick.connect(_on_quota_timer_tick)
-	_quota.quota_timer_completed.connect(_on_quota_timer_completed)
+	_quota.quota_finished.connect(_on_quota_finished)
 	
 	_ui.welcome_message()
 	_ui.update_quota_value(_quota.quota_value)
 	_ui.update_quota_timer(_quota.quota_timer)
-	_quota.start()
 
 func _on_enter_working_zone() -> void:
 	_ui.hide_message()
@@ -42,6 +43,9 @@ func _on_exit_button_area() -> void:
 	_ui.hide_message()
 
 func _on_button_pressed() -> void:
+	if not _is_quota_started:
+		_quota.start()
+		
 	if not _first_interacted:
 		_first_interacted = true
 		_ui.hide_message()
@@ -61,7 +65,12 @@ func _on_quota_changed(quota: Quota) -> void:
 func _on_quota_timer_tick(remaining: float) -> void:
 	_ui.update_quota_timer(remaining)
 
-func _on_quota_timer_completed() -> void:
+func _on_quota_started() -> void:
+	_is_quota_started = true
+	pass
+
+func _on_quota_finished() -> void:
+	_is_quota_started = false
 	var quota_value = _quota.quota_value
 	if _player.has_enough_money(quota_value):
 		_player.withdraw_money(quota_value)

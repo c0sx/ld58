@@ -9,9 +9,10 @@ extends Node3D
 
 var _current_time: float = 0.0
 
+signal quota_started
 signal quota_changed
 signal quota_timer_tick
-signal quota_timer_completed
+signal quota_finished
 
 func _ready() -> void:
 	_timer.timeout.connect(_on_tick)
@@ -25,6 +26,8 @@ func start() -> void:
 	_timer.start()
 	_total_timer.start()
 	
+	emit_signal('quota_started')
+	
 func next_quota() -> void:
 	quota_value *= 1.5
 	emit_signal("quota_changed", self)
@@ -37,4 +40,4 @@ func _on_finish() -> void:
 	_total_timer.stop()
 	_timer.stop()
 	_current_time = 0.0
-	emit_signal('quota_timer_completed')
+	emit_signal('quota_finished')
