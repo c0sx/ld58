@@ -1,6 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://cd8vh3bcgo2h8"]
+[gd_scene load_steps=7 format=3 uid="uid://cd8vh3bcgo2h8"]
 
 [ext_resource type="Script" path="res://tube/tube.gd" id="1_yhdt5"]
+[ext_resource type="PackedScene" uid="uid://cpjbpxu3if5h2" path="res://tube/spawner/spawner.tscn" id="2_d8uav"]
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_utvtq"]
 
@@ -15,6 +16,9 @@ albedo_color = Color(0.57, 0, 0, 1)
 [node name="Tube" type="Node3D"]
 script = ExtResource("1_yhdt5")
 
+[node name="Spawner" parent="." instance=ExtResource("2_d8uav")]
+transform = Transform3D(5, 0, 0, 0, 10, 0, 0, 0, 5, 2.08165e-12, 10, 2.08165e-12)
+
 [node name="TubeMesh" type="MeshInstance3D" parent="."]
 transform = Transform3D(5, 0, 0, 0, 10, 0, 0, 0, 5, 2.08165e-12, 10, 2.08165e-12)
 mesh = SubResource("CylinderMesh_utvtq")
@@ -24,6 +28,3 @@ surface_material_override/0 = SubResource("StandardMaterial3D_cdufy")
 transform = Transform3D(1.2, 0, 0, 0, 0.1, 0, 0, 0, 1.2, 2.08165e-12, -1, 2.08165e-12)
 mesh = SubResource("CylinderMesh_1xxgt")
 surface_material_override/0 = SubResource("StandardMaterial3D_jv8ct")
-
-[node name="Spawner" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.65857, 0)

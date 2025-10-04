@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://cgwgn3d0bsk5b"]
+[gd_scene load_steps=17 format=3 uid="uid://cgwgn3d0bsk5b"]
 
 [ext_resource type="Script" path="res://scenes/main-scene.gd" id="1_bir4h"]
 [ext_resource type="PackedScene" uid="uid://b7kqgb07sf7gj" path="res://work-zone/work-zone.tscn" id="1_k2p32"]
@@ -7,6 +7,8 @@
 [ext_resource type="PackedScene" uid="uid://cauq8w1d5shxk" path="res://tube-button/tube-button.tscn" id="3_u0ha8"]
 [ext_resource type="PackedScene" uid="uid://d30t0f1qjqfjd" path="res://loot-item/loot-item.tscn" id="5_67sra"]
 [ext_resource type="PackedScene" uid="uid://bfjd0cwaleh0b" path="res://ui/ui.tscn" id="6_0dwyr"]
+[ext_resource type="Resource" uid="uid://brx4385u1uauw" path="res://loot-item/garbage.tres" id="6_4r5fu"]
+[ext_resource type="Resource" uid="uid://dx0ib1u1vyc63" path="res://loot-item/golden-sphere.tres" id="7_ekssx"]
 [ext_resource type="PackedScene" uid="uid://dsve5jxi3op64" path="res://quota/quota.tscn" id="7_mm867"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_tcvn7"]
@@ -67,6 +69,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 1, 20)
 [node name="Tube" parent="." instance=ExtResource("2_dp1qa")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 10, 2.08165e-12)
 item_scene = ExtResource("5_67sra")
+items = Array[Resource("res://loot-item/loot-item-resourse.gd")]([ExtResource("6_4r5fu"), ExtResource("7_ekssx")])
 
 [node name="TubeButton" parent="." instance=ExtResource("3_u0ha8")]
 transform = Transform3D(-0.223795, 0, -0.974636, 0, 1, 0, 0.974636, 0, -0.223795, 2.08165e-12, 2.08165e-12, 10)

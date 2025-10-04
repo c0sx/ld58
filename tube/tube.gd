@@ -3,11 +3,17 @@ extends Node3D
 
 @export var item_scene: PackedScene
 @export var spawn_radius: float = 0.5
+@export var items: Array[LootItemResource] = []
 
-@onready var _spawner: Node3D = $Spawner
+@onready var _spawner: Spawner = $Spawner
+
+func _ready() -> void:
+	_spawner.items = items
 
 func spawn() -> void:
-	var item = item_scene.instantiate()
+	var resouce = _spawner.spawn()
+	var item = resouce.scene.instantiate()
+	
 	item.top_level = true
 	item.position = _calc_spawn_position()
 
