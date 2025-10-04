@@ -1,0 +1,64 @@
+[gd_scene load_steps=12 format=3 uid="uid://cgwgn3d0bsk5b"]
+
+[ext_resource type="Script" path="res://scenes/main-scene.gd" id="1_bir4h"]
+[ext_resource type="PackedScene" uid="uid://b7kqgb07sf7gj" path="res://work-zone/work-zone.tscn" id="1_k2p32"]
+[ext_resource type="PackedScene" uid="uid://b6cobyf05kb1" path="res://player/player.tscn" id="1_ms8d2"]
+[ext_resource type="PackedScene" uid="uid://cd8vh3bcgo2h8" path="res://tube/tube.tscn" id="2_dp1qa"]
+[ext_resource type="PackedScene" uid="uid://cauq8w1d5shxk" path="res://tube-button/tube-button.tscn" id="3_u0ha8"]
+[ext_resource type="PackedScene" uid="uid://bfjd0cwaleh0b" path="res://ui/ui.tscn" id="6_0dwyr"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_tcvn7"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_p0k0j"]
+sky_material = SubResource("ProceduralSkyMaterial_tcvn7")
+
+[sub_resource type="Environment" id="Environment_effs6"]
+background_mode = 1
+background_color = Color(0.0846899, 0.0846899, 0.0846899, 1)
+sky = SubResource("Sky_p0k0j")
+ambient_light_energy = 0.0
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_85ed2"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gumpb"]
+albedo_color = Color(0.0862745, 0.0862745, 0.0862745, 1)
+
+[node name="Main" type="Node3D"]
+script = ExtResource("1_bir4h")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_effs6")
+
+[node name="Light" type="SpotLight3D" parent="."]
+transform = Transform3D(1, -6.97574e-16, -1.52459e-23, -1.5246e-23, -4.37114e-08, 1, -6.97574e-16, -1, -4.37114e-08, 2.08165e-12, 20, 12)
+light_color = Color(1, 0.956863, 0.878431, 1)
+light_energy = 30.0
+light_specular = 1.0
+shadow_enabled = true
+shadow_bias = 0.05
+shadow_blur = 2.0
+spot_range = 50.0
+spot_angle = 60.0
+
+[node name="Plane" type="MeshInstance3D" parent="."]
+transform = Transform3D(50, 0, 0, 0, 1, 0, 0, 0, 50, 0, 0, 0)
+mesh = SubResource("PlaneMesh_85ed2")
+surface_material_override/0 = SubResource("StandardMaterial3D_gumpb")
+
+[node name="WorkingZone" parent="." instance=ExtResource("1_k2p32")]
+
+[node name="Player" parent="." instance=ExtResource("1_ms8d2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 1, 12)
+
+[node name="Tube" parent="." instance=ExtResource("2_dp1qa")]
+transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 2.08165e-12, 10, 2.08165e-12)
+
+[node name="Button" parent="." instance=ExtResource("3_u0ha8")]
+transform = Transform3D(-0.223795, 0, -0.974636, 0, 1, 0, 0.974636, 0, -0.223795, 2.08165e-12, 2.08165e-12, 10)
+
+[node name="UI" parent="." instance=ExtResource("6_0dwyr")]
+mouse_filter = 1
