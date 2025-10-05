@@ -39,9 +39,6 @@ func _unhandled_input(event: InputEvent) -> void:
 		rotation.y = _rotation.y
 		camera.rotation.x = _rotation.x
 		
-	if event is InputEventKey and event.keycode == KEY_ESCAPE:
-		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-		
 	if event.is_action_pressed("interact") and not event.is_echo():
 		_interact()
 

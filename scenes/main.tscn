@@ -1,15 +1,17 @@
-[gd_scene load_steps=17 format=3 uid="uid://cgwgn3d0bsk5b"]
+[gd_scene load_steps=19 format=3 uid="uid://cgwgn3d0bsk5b"]
 
 [ext_resource type="Script" path="res://scenes/main-scene.gd" id="1_bir4h"]
 [ext_resource type="PackedScene" uid="uid://b7kqgb07sf7gj" path="res://work-zone/work-zone.tscn" id="1_k2p32"]
 [ext_resource type="PackedScene" uid="uid://b6cobyf05kb1" path="res://player/player.tscn" id="1_ms8d2"]
 [ext_resource type="PackedScene" uid="uid://cd8vh3bcgo2h8" path="res://tube/tube.tscn" id="2_dp1qa"]
+[ext_resource type="PackedScene" uid="uid://bmufxbymoqsd7" path="res://pause-controller/pause-controller.tscn" id="2_dvdun"]
 [ext_resource type="PackedScene" uid="uid://cauq8w1d5shxk" path="res://tube-button/tube-button.tscn" id="3_u0ha8"]
 [ext_resource type="PackedScene" uid="uid://d30t0f1qjqfjd" path="res://loot-item/loot-item.tscn" id="5_67sra"]
 [ext_resource type="PackedScene" uid="uid://bfjd0cwaleh0b" path="res://ui/ui.tscn" id="6_0dwyr"]
 [ext_resource type="Resource" uid="uid://brx4385u1uauw" path="res://loot-item/garbage.tres" id="6_4r5fu"]
 [ext_resource type="Resource" uid="uid://dx0ib1u1vyc63" path="res://loot-item/golden-sphere.tres" id="7_ekssx"]
 [ext_resource type="PackedScene" uid="uid://dsve5jxi3op64" path="res://quota/quota.tscn" id="7_mm867"]
+[ext_resource type="PackedScene" uid="uid://bleya7mqfp6v6" path="res://pause-screen/pause-screen.tscn" id="12_p2wha"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_tcvn7"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -79,3 +81,10 @@ quota_timer = 30.0
 
 [node name="UI" parent="." instance=ExtResource("6_0dwyr")]
 mouse_filter = 1
+
+[node name="PauseController" parent="." instance=ExtResource("2_dvdun")]
+process_mode = 3
+
+[node name="PauseScreen" parent="." instance=ExtResource("12_p2wha")]
+process_mode = 2
+visible = false

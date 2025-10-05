@@ -1,0 +1,66 @@
+[gd_scene load_steps=5 format=3 uid="uid://bleya7mqfp6v6"]
+
+[ext_resource type="Script" path="res://pause-screen/pause-screen.gd" id="1_473tb"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ux6q5"]
+bg_color = Color(0.105614, 0.105614, 0.105614, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_e3341"]
+content_margin_left = 10.0
+content_margin_top = 10.0
+content_margin_right = 10.0
+content_margin_bottom = 10.0
+bg_color = Color(0.105882, 0.105882, 0.105882, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2uoof"]
+bg_color = Color(0.105882, 0.105882, 0.105882, 1)
+
+[node name="PauseScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_473tb")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_ux6q5")
+
+[node name="Message" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 64
+text = "Paused
+Press 'Esc' to resume"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="QuitButton" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -50.0
+offset_top = -342.0
+offset_right = 50.0
+offset_bottom = -289.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_font_sizes/font_size = 50
+theme_override_styles/normal = SubResource("StyleBoxFlat_e3341")
+theme_override_styles/hover = SubResource("StyleBoxFlat_2uoof")
+text = "Quit"

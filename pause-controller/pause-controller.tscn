@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://bmufxbymoqsd7"]
+
+[ext_resource type="Script" path="res://pause-controller/pause-controller.gd" id="1_hiyk8"]
+
+[node name="PauseController" type="Node3D"]
+script = ExtResource("1_hiyk8")

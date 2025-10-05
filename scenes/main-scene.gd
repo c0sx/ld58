@@ -6,9 +6,12 @@ extends Node3D
 @onready var _button: TubeButton = $TubeButton
 @onready var _tube: Tube = $Tube
 @onready var _quota: Quota = $Quota
+@onready var _pause_controller: PauseController = $PauseController
+@onready var _pause_screen: Control = $PauseScreen
 
 var _first_interacted = false
 var _is_quota_started = false
+var _is_paused = false
 
 func _ready() -> void:
 	_working_zone.enter_working_zone.connect(_on_enter_working_zone)
@@ -24,6 +27,11 @@ func _ready() -> void:
 	_quota.quota_changed.connect(_on_quota_changed)
 	_quota.quota_timer_tick.connect(_on_quota_timer_tick)
 	_quota.quota_finished.connect(_on_quota_finished)
+	
+	_pause_controller.game_paused.connect(_on_game_paused)
+	_pause_controller.game_resumed.connect(_on_game_resumed)
+	
+	_pause_controller.visible = false
 	
 	_ui.welcome_message()
 	_ui.update_quota_value(_quota.quota_value)
@@ -79,3 +87,13 @@ func _on_quota_finished() -> void:
 	else:
 		print("Game over")
 		get_tree().quit()
+
+func _on_game_paused() -> void:
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	get_tree().paused = true
+	_pause_screen.visible = true
+
+func _on_game_resumed() -> void:
+	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	get_tree().paused = false
+	_pause_screen.visible = false
