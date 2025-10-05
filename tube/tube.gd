@@ -12,14 +12,18 @@ func _ready() -> void:
 	_spawner.items = items
 
 func spawn() -> void:
-	var item = _spawner.spawn()
-	var box = box_scene.instantiate()
-	box.add_item(item)
+	var amount = randf_range(1, 3)
 	
-	box.top_level = true
-	box.position = _calc_spawn_position()
+	for i in amount:
+		var item = _spawner.spawn()
+		var box = box_scene.instantiate()
+		box.add_item(item)
+		
+		box.top_level = true
+		box.position = _calc_spawn_position()
 
-	add_child(box)
+		add_child(box)
+		await get_tree().create_timer(0.1).timeout
 
 func _calc_spawn_position() -> Vector3:
 	var x = randf_range(_spawner.position.x-spawn_radius, _spawner.position.x + spawn_radius)

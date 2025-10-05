@@ -51,7 +51,9 @@ func _on_finish() -> void:
 	_total_timer.stop()
 	_timer.stop()
 	_current_time = 0.0
-	start_quota_items += 1
+	
+	var amount = randi_range(0, 1)
+	start_quota_items += amount
 	
 	emit_signal('quota_finished')
 
