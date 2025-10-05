@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://cgwgn3d0bsk5b"]
+[gd_scene load_steps=25 format=3 uid="uid://cgwgn3d0bsk5b"]
 
 [ext_resource type="Script" path="res://scenes/main-scene.gd" id="1_bir4h"]
 [ext_resource type="PackedScene" uid="uid://b7kqgb07sf7gj" path="res://work-zone/work-zone.tscn" id="1_k2p32"]
@@ -9,6 +9,7 @@
 [ext_resource type="Script" path="res://loot-item/loot-item-resourse.gd" id="5_ytluv"]
 [ext_resource type="PackedScene" uid="uid://bfjd0cwaleh0b" path="res://ui/ui.tscn" id="6_0dwyr"]
 [ext_resource type="PackedScene" uid="uid://dsve5jxi3op64" path="res://quota/quota.tscn" id="7_mm867"]
+[ext_resource type="PackedScene" uid="uid://ckhaeb7af0hr" path="res://game-over-screen/game-over-screen.tscn" id="11_pthsh"]
 [ext_resource type="PackedScene" uid="uid://bleya7mqfp6v6" path="res://pause-screen/pause-screen.tscn" id="12_p2wha"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_tcvn7"]
@@ -190,5 +191,9 @@ mouse_filter = 1
 process_mode = 3
 
 [node name="PauseScreen" parent="." instance=ExtResource("12_p2wha")]
+process_mode = 2
+visible = false
+
+[node name="GameOverScreen" parent="." instance=ExtResource("11_pthsh")]
 process_mode = 2
 visible = false

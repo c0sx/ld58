@@ -8,6 +8,7 @@ extends Node3D
 @onready var _quota: Quota = $Quota
 @onready var _pause_controller: PauseController = $PauseController
 @onready var _pause_screen: Control = $PauseScreen
+@onready var _game_over_screen: Control = $GameOverScreen
 
 var _first_interacted = false
 var _is_quota_started = false
@@ -32,6 +33,7 @@ func _ready() -> void:
 	_pause_controller.game_resumed.connect(_on_game_resumed)
 	
 	_pause_controller.visible = false
+	_game_over_screen.visible = false
 	
 	_ui.welcome_message()
 	_ui.update_quota_value(_quota.quota_value)
@@ -75,7 +77,6 @@ func _on_quota_timer_tick(remaining: float) -> void:
 
 func _on_quota_started() -> void:
 	_is_quota_started = true
-	pass
 
 func _on_quota_finished() -> void:
 	_is_quota_started = false
@@ -85,8 +86,9 @@ func _on_quota_finished() -> void:
 		_quota.next_quota()
 		_quota.start()
 	else:
-		print("Game over")
-		get_tree().quit()
+		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+		get_tree().paused = true
+		_game_over_screen.visible = true
 
 func _on_game_paused() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
