@@ -18,6 +18,8 @@ func _ready() -> void:
 
 	_working_zone.enter_working_zone.connect(_on_enter_working_zone)
 	_working_zone.exit_working_zone.connect(_on_exit_working_zone)
+	_working_zone.exit_working_zone_tick.connect(_on_exit_working_zone_tick)
+	_working_zone.exit_working_zone_exceeded.connect(_on_exit_working_zone_exceeded)
 	
 	_tube_button.enter_button_area.connect(_on_enter_button_area)
 	_tube_button.exit_button_area.connect(_on_exit_button_area)
@@ -41,8 +43,14 @@ func _ready() -> void:
 func _on_enter_working_zone() -> void:
 	_ui.hide_message()
 	
-func _on_exit_working_zone() -> void:
-	_ui.render_return_to_the_working_zone_message()
+func _on_exit_working_zone(timeout: float) -> void:
+	_ui.render_return_to_the_working_zone_message(timeout)
+	
+func _on_exit_working_zone_tick(remaining: float) -> void:
+	_ui.render_return_to_the_working_zone_message(remaining)
+	
+func _on_exit_working_zone_exceeded() -> void:
+	_game_over()
 	
 func _on_enter_button_area() -> void:
 	if not _first_interacted:
@@ -79,12 +87,15 @@ func _on_quota_finished() -> void:
 	
 	var result = _quota.check_quota(_player)
 	if not result:
-		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-		get_tree().paused = true
-		_game_over_screen.visible = true
+		_game_over()
 	else:
 		_player.withdraw_items(_quota.get_current_quota())
 		_quota.start()
+		
+func _game_over() -> void:
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	get_tree().paused = true
+	_game_over_screen.visible = true
 
 func _on_game_paused() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)

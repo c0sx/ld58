@@ -9,8 +9,8 @@ extends Control
 func _ready() -> void:
 	_message.visible = false
 
-func render_return_to_the_working_zone_message() -> void:
-	_label.text = "Return to the working zone"
+func render_return_to_the_working_zone_message(remaining: float) -> void:
+	_label.text = "Return to the working zone\n" + str(int(remaining))
 	_message.visible = true
 
 func welcome_message() -> void:
