@@ -10,14 +10,12 @@ extends CharacterBody3D
 
 @onready var camera: Camera3D = $Camera3D
 
-signal money_changed(value: float)
+signal inventory_changed(value: Dictionary)
 
 var _rotation: Vector3 = Vector3.ZERO
 var _vertical_looking_limit: int = 60
 var _interactable: Node3D
 var _inventory: Dictionary = {} # [string, int]
-
-var _money: float = 0.0
 
 func _ready() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
@@ -45,6 +43,55 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func set_interactable(interactable: Node3D) -> void:
 	_interactable = interactable
+		
+func collect_item(item: LootItemResource) -> void:
+	var value = _inventory.get(item.name, 0)
+	_inventory[item.name] = value + 1
+	
+	emit_signal("inventory_changed")
+
+func build_plan(quota: Dictionary) -> Dictionary:
+	var plan = {}
+	
+	for k in quota:
+		var value = quota.get(k, 0)
+		
+		plan[k] = {
+			"need": value,
+			"have": 0,
+		}
+		
+	for k in _inventory:
+		var value = _inventory.get(k, 0)
+		var item = plan.get(k)
+		
+		if not item:
+			plan[k] = {
+				"need": 0,
+				"have": value
+			}
+		else:
+			plan[k]["have"] = value
+	
+	return plan
+	
+func has_engough(item_name: String, need_value: int) -> bool:
+	if not _inventory.has(item_name):
+		return false
+		
+	var have_value = _inventory[item_name];
+	
+	return have_value >= need_value
+
+func withdraw_items(items: Dictionary) -> void:
+	for k in items:
+		var value = items[k]
+		var current_value = _inventory.get(k, 0)
+		
+		if current_value - value < 0:
+			_inventory[k] = 0
+		else:
+			_inventory[k] = current_value - value
 
 func _interact() -> void:
 	if not _interactable:
@@ -52,17 +99,3 @@ func _interact() -> void:
 		
 	if _interactable is TubeButton:
 		_interactable.interact()
-		
-func give_reward(value: int) -> void:
-	_money += value
-	emit_signal("money_changed", _money)
-	
-func collect_item(item: LootItemResource) -> void:
-	print("collected: ", item)
-
-func has_enough_money(value: float) -> bool:
-	return _money >= value
-	
-func withdraw_money(value: float) -> void:
-	_money -= value
-	emit_signal("money_changed", _money)

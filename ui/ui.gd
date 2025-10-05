@@ -3,9 +3,8 @@ extends Control
 
 @onready var _message: Panel = $MessagePanel
 @onready var _label: Label = $MessagePanel/Label
-@onready var _money: Label = $Money
-@onready var _quota: Label = $Quota
 @onready var _timer: Label = $TimeLeft
+@onready var _inventory: VBoxContainer = $Inventory
 
 func _ready() -> void:
 	_message.visible = false
@@ -26,17 +25,24 @@ func hide_message() -> void:
 	_message.visible = false
 	_label.text = ""
 
-func update_money_value(value: float) -> void:
-	_money.text = "Money: " + str(int(value))
-
-func update_quota_value(value: float) -> void:
-	_quota.text = "Quota: " + str(int(value))
-
-func update_quota_reached(value: bool) -> void:
-	if value:
-		_quota.add_theme_color_override("font_color", Color(0, 1, 0, 1))
-	else:
-		_quota.add_theme_color_override("font_color", Color(1, 0, 0, 1))
+func update_quota_plan(quota_plan: Dictionary) -> void:
+	for child in _inventory.get_children():
+		_inventory.remove_child(child)
 		
+	for k in quota_plan:
+		var item = quota_plan[k]
+		var need = item["need"]
+		var have = item["have"]
+		
+		var label = Label.new()
+		label.text = k + ": " + str(have) + "/" + str(need)
+		label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+		label.add_theme_font_size_override("font_size", 32)
+		
+		if need > 0 and have >= need:
+			label.add_theme_color_override("font_color", Color(0, 1, 0, 1))
+			
+		_inventory.add_child(label)
+	
 func update_quota_timer(value: float) -> void:
 	_timer.text = "Time Left: " + str(int(value))

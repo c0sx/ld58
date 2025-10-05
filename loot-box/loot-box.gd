@@ -60,8 +60,6 @@ func _pick_complete() -> void:
 	_sprite.visible = false
 	
 	if _player:
-		print("rewarding", 100)
-		_player.give_reward(100)
 		_player.collect_item(_loot_item)
 		
 	get_parent().remove_child(self)

@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://loot-box/loot-box.gd" id="1_7l1wq"]
 
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_kroeo"]
+[sub_resource type="BoxShape3D" id="BoxShape3D_scpwi"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_0n0pm"]
 
@@ -12,7 +12,7 @@
 script = ExtResource("1_7l1wq")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-shape = SubResource("CylinderShape3D_kroeo")
+shape = SubResource("BoxShape3D_scpwi")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("BoxMesh_0n0pm")

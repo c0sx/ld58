@@ -6,6 +6,5 @@
 script = ExtResource("1_co7yq")
 
 [node name="Timer" type="Timer" parent="."]
-process_mode = 3
 
 [node name="QuotaTimer" type="Timer" parent="."]

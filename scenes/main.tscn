@@ -80,6 +80,7 @@ transform = Transform3D(-0.223795, 0, -0.974636, 0, 1, 0, 0.974636, 0, -0.223795
 
 [node name="Quota" parent="." instance=ExtResource("7_mm867")]
 quota_timer = 30.0
+items = Array[Resource("res://loot-item/loot-item-resourse.gd")]([ExtResource("6_o3sgs"), ExtResource("7_tsmho"), ExtResource("8_llufd")])
 
 [node name="UI" parent="." instance=ExtResource("6_0dwyr")]
 mouse_filter = 1

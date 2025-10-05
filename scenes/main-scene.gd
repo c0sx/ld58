@@ -21,10 +21,9 @@ func _ready() -> void:
 	_tube_button.exit_button_area.connect(_on_exit_button_area)
 	_tube_button.pressed.connect(_on_button_pressed)
 	
-	_player.money_changed.connect(_on_money_changed)
+	_player.inventory_changed.connect(_on_inventory_changed)
 	
 	_quota.quota_started.connect(_on_quota_started)
-	_quota.quota_changed.connect(_on_quota_changed)
 	_quota.quota_timer_tick.connect(_on_quota_timer_tick)
 	_quota.quota_finished.connect(_on_quota_finished)
 	
@@ -35,7 +34,6 @@ func _ready() -> void:
 	_game_over_screen.visible = false
 	
 	_ui.welcome_message()
-	_ui.update_quota_value(_quota.quota_value)
 	_ui.update_quota_timer(_quota.quota_timer)
 
 func _on_enter_working_zone() -> void:
@@ -61,33 +59,30 @@ func _on_button_pressed() -> void:
 		
 	_tube.spawn()
 
-func _on_money_changed(value: float) -> void:
-	_ui.update_money_value(value)
-	
-	var current_quota = _quota.quota_value
-	_ui.update_quota_reached(value >= current_quota)
-
-func _on_quota_changed(quota: Quota) -> void:
-	_ui.update_quota_value(quota.quota_value)
-	_ui.update_quota_timer(quota.quota_timer)
+func _on_inventory_changed() -> void:
+	var plan = _player.build_plan(_quota.get_current_quota())
+	_ui.update_quota_plan(plan)
 
 func _on_quota_timer_tick(remaining: float) -> void:
 	_ui.update_quota_timer(remaining)
 
-func _on_quota_started() -> void:
+func _on_quota_started(quota: Dictionary, timer: float) -> void:
 	_is_quota_started = true
+	var plan = _player.build_plan(quota)
+	_ui.update_quota_plan(plan)
+	_ui.update_quota_timer(timer)
 
 func _on_quota_finished() -> void:
 	_is_quota_started = false
-	var quota_value = _quota.quota_value
-	if _player.has_enough_money(quota_value):
-		_player.withdraw_money(quota_value)
-		_quota.next_quota()
-		_quota.start()
-	else:
+	
+	var result = _quota.check_quota(_player)
+	if not result:
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 		get_tree().paused = true
 		_game_over_screen.visible = true
+	else:
+		_player.withdraw_items(_quota.get_current_quota())
+		_quota.start()
 
 func _on_game_paused() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)

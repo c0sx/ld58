@@ -14,13 +14,13 @@ func spawn() -> LootItemResource:
 		return a + b
 	)
 	
-	var range = randf_range(0.0, total)
+	var r = randf_range(0.0, total)
 	var acc := 0.0
 	
 	for i in items.size():
 		acc += weights[i]
 		
-		if range <= acc:
+		if r <= acc:
 			return items[i]
 	
 	return items.back()
