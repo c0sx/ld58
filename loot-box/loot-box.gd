@@ -33,7 +33,7 @@ func _ready() -> void:
 		var mat = StandardMaterial3D.new()
 		mat.emission_enabled = true
 		mat.emission = color
-		mat.emission_energy_multiplier = 2.5
+		mat.emission_energy_multiplier = 1.2
 		_mesh.material_override = mat
 
 func _process(delta: float) -> void:
