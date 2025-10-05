@@ -12,6 +12,8 @@ extends CharacterBody3D
 
 signal inventory_changed(value: Dictionary)
 
+var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
+
 var _rotation: Vector3 = Vector3.ZERO
 var _vertical_looking_limit: int = 60
 var _interactable: Node3D
@@ -20,12 +22,18 @@ var _inventory: Dictionary = {} # [string, int]
 func _ready() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	
-func _physics_process(_delta: float) -> void:
+func _physics_process(delta: float) -> void:
 	var input_dir = Input.get_vector("move_left", "move_right", "move_forward", "move_back")
 	var direction = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 
 	velocity.x = direction.x * player_speed
 	velocity.z = direction.z * player_speed
+	
+	if is_on_floor():
+		if velocity.y > 0.0: velocity.y = 0.0
+		velocity.y = -2.0
+	else:
+		velocity.y -= gravity * delta
 
 	move_and_slide()
 
