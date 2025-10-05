@@ -79,10 +79,12 @@ func _pick_complete() -> void:
 	_sprite.visible = false
 	
 	if _player:
-		_player.collect_item(_loot_item)
+		if _loot_item.name != "trash":
+			_player.collect_item(_loot_item)
 
-	_play_pick_complete()
-	await get_tree().create_timer(0.1).timeout
+		_play_pick_complete()
+		await get_tree().create_timer(0.1).timeout
+
 	get_parent().remove_child(self)
 
 func _pick_cancel() -> void:
@@ -100,9 +102,13 @@ func _select_color() -> Color:
 func _play_pick_complete() -> void:
 	if len(_sounds) == 0:
 		return
+	
+	var stream
+	if _loot_item.name == "trash":
+		stream = load('res://assets/sounds/pickup-boom.wav')
+	else: 
+		stream = _sounds.pick_random()
 		
-	var stream = _sounds.pick_random()
 	if not _audio_stream_player.is_playing():
 		_audio_stream_player.stream = stream
 		_audio_stream_player.play()
-	pass

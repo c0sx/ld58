@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=3 uid="uid://cgwgn3d0bsk5b"]
+[gd_scene load_steps=30 format=3 uid="uid://cgwgn3d0bsk5b"]
 
 [ext_resource type="Script" path="res://scenes/main-scene.gd" id="1_bir4h"]
 [ext_resource type="PackedScene" uid="uid://b7kqgb07sf7gj" path="res://work-zone/work-zone.tscn" id="1_k2p32"]
@@ -14,6 +14,7 @@
 [ext_resource type="PackedScene" uid="uid://dsve5jxi3op64" path="res://quota/quota.tscn" id="7_mm867"]
 [ext_resource type="Resource" uid="uid://ca8rhfuv4qtq6" path="res://loot-item/gold-jewelry/gold-jewelry.tres" id="7_tsmho"]
 [ext_resource type="Resource" uid="uid://cplc5y1os18kd" path="res://loot-item/old-toy/old-toy.tres" id="8_llufd"]
+[ext_resource type="Resource" uid="uid://wwc545pc5q4j" path="res://loot-item/trash/trash.tres" id="11_e0fp0"]
 [ext_resource type="PackedScene" uid="uid://ckhaeb7af0hr" path="res://game-over-screen/game-over-screen.tscn" id="11_pthsh"]
 [ext_resource type="PackedScene" uid="uid://bleya7mqfp6v6" path="res://pause-screen/pause-screen.tscn" id="12_p2wha"]
 
@@ -136,7 +137,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 1, 20)
 [node name="Tube" parent="." instance=ExtResource("2_dp1qa")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 10, 2.08165e-12)
 box_scene = ExtResource("5_vodq4")
-items = Array[Resource("res://loot-item/loot-item-resourse.gd")]([ExtResource("6_o3sgs"), ExtResource("7_tsmho"), ExtResource("8_llufd")])
+items = Array[Resource("res://loot-item/loot-item-resourse.gd")]([ExtResource("6_o3sgs"), ExtResource("7_tsmho"), ExtResource("8_llufd"), ExtResource("11_e0fp0")])
 
 [node name="TubeButton" parent="." instance=ExtResource("3_u0ha8")]
 transform = Transform3D(-0.223795, 0, -0.974636, 0, 1, 0, 0.974636, 0, -0.223795, 2.08165e-12, 2.08165e-12, 10)

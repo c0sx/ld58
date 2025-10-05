@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="LootItemResource" load_steps=2 format=3 uid="uid://wwc545pc5q4j"]
+
+[ext_resource type="Script" path="res://loot-item/loot-item-resourse.gd" id="1_brimu"]
+
+[resource]
+script = ExtResource("1_brimu")
+name = "trash"
+rarity = 1

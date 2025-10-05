@@ -12,7 +12,7 @@ func _ready() -> void:
 	_spawner.items = items
 
 func spawn() -> void:
-	var amount = randf_range(1, 3)
+	var amount = randf_range(1, 2)
 	
 	for i in amount:
 		var item = _spawner.spawn()
