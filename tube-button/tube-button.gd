@@ -4,6 +4,7 @@ extends Node3D
 @onready var _area3d: Area3D = $Area3D
 @onready var _cursor: Sprite3D = $Cursor
 @onready var _animation_player: AnimationPlayer = $AnimationPlayer
+@onready var _audio_stream_player: AudioStreamPlayer3D = $AudioStreamPlayer3D
 
 signal enter_button_area
 signal exit_button_area
@@ -23,8 +24,11 @@ func interact() -> void:
 		return
 	
 	_animation_player.play("press_button")
-	emit_signal('pressed')
 	_animation_pending = true
+	emit_signal('pressed')
+	
+	_audio_stream_player.stream = load("res://assets/sounds/button0.wav")
+	_audio_stream_player.play()
 
 func _on_enter(body) -> void:
 	if body is Player:

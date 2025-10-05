@@ -9,6 +9,7 @@ extends Node3D
 @onready var _pause_controller: PauseController = $PauseController
 @onready var _pause_screen: Control = $PauseScreen
 @onready var _game_over_screen: Control = $GameOverScreen
+@onready var _audio_stream_player: AudioStreamPlayer = $AudioStreamPlayer
 
 var _first_interacted = false
 var _is_quota_started = false
@@ -47,6 +48,9 @@ func _on_exit_working_zone(timeout: float) -> void:
 	_ui.render_return_to_the_working_zone_message(timeout)
 	
 func _on_exit_working_zone_tick(remaining: float) -> void:
+	_audio_stream_player.stream = load("res://assets/sounds/blip.wav")
+	_audio_stream_player.play()
+	
 	_ui.render_return_to_the_working_zone_message(remaining)
 	
 func _on_exit_working_zone_exceeded() -> void:

@@ -99,3 +99,5 @@ theme_override_fonts/font = ExtResource("2_k6ip1")
 theme_override_font_sizes/font_size = 32
 theme_override_styles/background = SubResource("StyleBoxFlat_w60ub")
 theme_override_styles/fill = SubResource("StyleBoxFlat_6otr5")
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]

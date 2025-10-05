@@ -90,3 +90,5 @@ libraries = {
 "": SubResource("AnimationLibrary_p8bek")
 }
 autoplay = "press_button"
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]

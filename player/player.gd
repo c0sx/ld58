@@ -4,22 +4,27 @@ extends CharacterBody3D
 @export_group("Player")
 @export var player_speed: int = 10
 @export var player_pick_duration: float = 1.5
+@export var player_step_interval = 0.4
 
 @export_group("Mouse")
 @export var mouse_sensitivity = 0.2
 
-@onready var camera: Camera3D = $Camera3D
+@onready var _camera: Camera3D = $Camera3D
+@onready var _audio_stream_player: AudioStreamPlayer3D = $AudioStreamPlayer3D
 
 signal inventory_changed(value: Dictionary)
 
-var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
+var _gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
 var _rotation: Vector3 = Vector3.ZERO
 var _vertical_looking_limit: int = 60
 var _interactable: Node3D
 var _inventory: Dictionary = {} # [string, int]
+var _step_timer = 0.0
 
 func _ready() -> void:
+	_step_timer = player_step_interval
+	
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	
 func _physics_process(delta: float) -> void:
@@ -29,11 +34,17 @@ func _physics_process(delta: float) -> void:
 	velocity.x = direction.x * player_speed
 	velocity.z = direction.z * player_speed
 	
+	if velocity.length() > 0.1 and is_on_floor():
+		_step_timer -= delta
+		if _step_timer <= 0.0:
+			_play_step_sound()
+			_step_timer = player_step_interval
+	
 	if is_on_floor():
 		if velocity.y > 0.0: velocity.y = 0.0
 		velocity.y = -2.0
 	else:
-		velocity.y -= gravity * delta
+		velocity.y -= _gravity * delta
 
 	move_and_slide()
 
@@ -44,7 +55,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		_rotation.x = clamp(_rotation.x, deg_to_rad(-_vertical_looking_limit), deg_to_rad(_vertical_looking_limit))
 		
 		rotation.y = _rotation.y
-		camera.rotation.x = _rotation.x
+		_camera.rotation.x = _rotation.x
 		
 	if event.is_action_pressed("interact") and not event.is_echo():
 		_interact()
@@ -107,3 +118,8 @@ func _interact() -> void:
 		
 	if _interactable is TubeButton:
 		_interactable.interact()
+
+func _play_step_sound() -> void:
+	if not _audio_stream_player.is_playing():
+		_audio_stream_player.stream = load('res://assets/sounds/step.wav')
+		_audio_stream_player.play()

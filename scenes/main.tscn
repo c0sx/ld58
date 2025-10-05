@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=3 uid="uid://cgwgn3d0bsk5b"]
+[gd_scene load_steps=29 format=3 uid="uid://cgwgn3d0bsk5b"]
 
 [ext_resource type="Script" path="res://scenes/main-scene.gd" id="1_bir4h"]
 [ext_resource type="PackedScene" uid="uid://b7kqgb07sf7gj" path="res://work-zone/work-zone.tscn" id="1_k2p32"]
@@ -41,9 +41,6 @@ fill = 1
 fill_from = Vector2(0.504854, 0.502427)
 fill_to = Vector2(0.949029, 0.883495)
 
-[sub_resource type="PlaneMesh" id="PlaneMesh_ccm0c"]
-material = ExtResource("2_aap56")
-
 [sub_resource type="PlaneMesh" id="PlaneMesh_vmclw"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gumpb"]
@@ -83,11 +80,6 @@ light_specular = 1.0
 shadow_enabled = true
 spot_range = 30.0
 spot_angle = 60.0
-
-[node name="Ground" type="MeshInstance3D" parent="."]
-transform = Transform3D(50, 0, 0, 0, 1, 0, 0, 0, 50, 0, 0, 0)
-visible = false
-mesh = SubResource("PlaneMesh_ccm0c")
 
 [node name="Plane" type="MeshInstance3D" parent="."]
 transform = Transform3D(50, 0, 0, 0, 1, 0, 0, 0, 50, 0, 0, 0)
@@ -166,3 +158,5 @@ visible = false
 [node name="GameOverScreen" parent="." instance=ExtResource("11_pthsh")]
 process_mode = 2
 visible = false
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]

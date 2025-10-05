@@ -9,6 +9,15 @@ extends Node3D
 @onready var _viewport: SubViewport = $SubViewport
 @onready var _progress_bar: ProgressBar = $SubViewport/Control/ProgressBar
 @onready var _mesh: MeshInstance3D = $MeshInstance3D
+@onready var _audio_stream_player: AudioStreamPlayer3D = $AudioStreamPlayer3D
+
+var _sounds = [
+	load('res://assets/sounds/pickup0.wav'),
+	load('res://assets/sounds/pickup1.wav'),
+	load('res://assets/sounds/pickup2.wav'),
+	load('res://assets/sounds/pickup3.wav'),
+	load('res://assets/sounds/pickup4.wav')
+]
 
 var _loot_item: LootItemResource
 var _is_picking = false
@@ -71,7 +80,9 @@ func _pick_complete() -> void:
 	
 	if _player:
 		_player.collect_item(_loot_item)
-		
+
+	_play_pick_complete()
+	await get_tree().create_timer(0.1).timeout
 	get_parent().remove_child(self)
 
 func _pick_cancel() -> void:
@@ -85,3 +96,13 @@ func _select_color() -> Color:
 		
 	var idx = randi_range(0, len(colors) - 1)
 	return colors[idx]
+
+func _play_pick_complete() -> void:
+	if len(_sounds) == 0:
+		return
+		
+	var stream = _sounds.pick_random()
+	if not _audio_stream_player.is_playing():
+		_audio_stream_player.stream = stream
+		_audio_stream_player.play()
+	pass
