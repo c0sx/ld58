@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="LootItemResource" load_steps=2 format=3 uid="uid://ca8rhfuv4qtq6"]
+
+[ext_resource type="Script" path="res://loot-item/loot-item-resourse.gd" id="1_26vvd"]
+
+[resource]
+script = ExtResource("1_26vvd")
+name = "gold jewelry"
+rarity = 5

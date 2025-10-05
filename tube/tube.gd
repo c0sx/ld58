@@ -1,8 +1,9 @@
 class_name Tube
 extends Node3D
 
-@export var item_scene: PackedScene
 @export var spawn_radius: float = 0.5
+
+@export var box_scene: PackedScene
 @export var items: Array[LootItemResource] = []
 
 @onready var _spawner: Spawner = $Spawner
@@ -13,11 +14,13 @@ func _ready() -> void:
 func spawn() -> void:
 	var resouce = _spawner.spawn()
 	var item = resouce.scene.instantiate()
+	var box = box_scene.instantiate()
+	box.add_item(item)
 	
-	item.top_level = true
-	item.position = _calc_spawn_position()
+	box.top_level = true
+	box.position = _calc_spawn_position()
 
-	add_child(item)
+	add_child(box)
 
 func _calc_spawn_position() -> Vector3:
 	var x = randf_range(_spawner.position.x-spawn_radius, _spawner.position.x + spawn_radius)

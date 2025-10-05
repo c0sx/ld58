@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="LootItemResource" load_steps=2 format=3 uid="uid://dwv6c20n2o4wx"]
+
+[ext_resource type="Script" path="res://loot-item/loot-item-resourse.gd" id="1_oacrl"]
+
+[resource]
+script = ExtResource("1_oacrl")
+name = "ball"
+rarity = 1

@@ -1,27 +1,17 @@
-[gd_scene load_steps=5 format=3 uid="uid://d30t0f1qjqfjd"]
+[gd_scene load_steps=3 format=3 uid="uid://f5aiqtxurlnd"]
 
-[ext_resource type="Script" path="res://loot-item/loot-item.gd" id="1_ujbwt"]
+[ext_resource type="Script" path="res://loot-box/loot-box.gd" id="1_7l1wq"]
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_x15mb"]
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_r2twe"]
 
-[sub_resource type="BoxMesh" id="BoxMesh_ca3ry"]
-
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_xlr6b"]
-
-[node name="LootItem" type="RigidBody3D"]
-script = ExtResource("1_ujbwt")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-shape = SubResource("BoxShape3D_x15mb")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-mesh = SubResource("BoxMesh_ca3ry")
+[node name="LootBox" type="Node3D"]
+script = ExtResource("1_7l1wq")
 
 [node name="Area3D" type="Area3D" parent="."]
 transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 0, 0, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
-shape = SubResource("CylinderShape3D_xlr6b")
+shape = SubResource("CylinderShape3D_r2twe")
 
 [node name="Sprite3D" type="Sprite3D" parent="."]
 billboard = 1

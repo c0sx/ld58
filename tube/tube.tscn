@@ -1,7 +1,11 @@
-[gd_scene load_steps=7 format=3 uid="uid://cd8vh3bcgo2h8"]
+[gd_scene load_steps=11 format=3 uid="uid://cd8vh3bcgo2h8"]
 
 [ext_resource type="Script" path="res://tube/tube.gd" id="1_yhdt5"]
 [ext_resource type="PackedScene" uid="uid://cpjbpxu3if5h2" path="res://tube/spawner/spawner.tscn" id="2_d8uav"]
+[ext_resource type="PackedScene" uid="uid://f5aiqtxurlnd" path="res://loot-box/loot-box.tscn" id="2_t5pm2"]
+[ext_resource type="Resource" uid="uid://cplc5y1os18kd" path="res://loot-item/old-toy/old-toy.tres" id="3_t8143"]
+[ext_resource type="Resource" uid="uid://dwv6c20n2o4wx" path="res://loot-item/ball/ball.tres" id="4_cl0ch"]
+[ext_resource type="Resource" uid="uid://ca8rhfuv4qtq6" path="res://loot-item/gold-jewelry/gold-jewelry.tres" id="5_0m8t1"]
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_utvtq"]
 
@@ -15,6 +19,8 @@ albedo_color = Color(0.57, 0, 0, 1)
 
 [node name="Tube" type="Node3D"]
 script = ExtResource("1_yhdt5")
+box_scene = ExtResource("2_t5pm2")
+items = Array[Resource("res://loot-item/loot-item-resourse.gd")]([ExtResource("3_t8143"), ExtResource("4_cl0ch"), ExtResource("5_0m8t1")])
 
 [node name="Spawner" parent="." instance=ExtResource("2_d8uav")]
 transform = Transform3D(5, 0, 0, 0, 10, 0, 0, 0, 5, 2.08165e-12, 10, 2.08165e-12)

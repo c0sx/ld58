@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://cgwgn3d0bsk5b"]
+[gd_scene load_steps=24 format=3 uid="uid://cgwgn3d0bsk5b"]
 
 [ext_resource type="Script" path="res://scenes/main-scene.gd" id="1_bir4h"]
 [ext_resource type="PackedScene" uid="uid://b7kqgb07sf7gj" path="res://work-zone/work-zone.tscn" id="1_k2p32"]
@@ -6,10 +6,8 @@
 [ext_resource type="PackedScene" uid="uid://cd8vh3bcgo2h8" path="res://tube/tube.tscn" id="2_dp1qa"]
 [ext_resource type="PackedScene" uid="uid://bmufxbymoqsd7" path="res://pause-controller/pause-controller.tscn" id="2_dvdun"]
 [ext_resource type="PackedScene" uid="uid://cauq8w1d5shxk" path="res://tube-button/tube-button.tscn" id="3_u0ha8"]
-[ext_resource type="PackedScene" uid="uid://d30t0f1qjqfjd" path="res://loot-item/loot-item.tscn" id="5_67sra"]
+[ext_resource type="Script" path="res://loot-item/loot-item-resourse.gd" id="5_ytluv"]
 [ext_resource type="PackedScene" uid="uid://bfjd0cwaleh0b" path="res://ui/ui.tscn" id="6_0dwyr"]
-[ext_resource type="Resource" uid="uid://brx4385u1uauw" path="res://loot-item/garbage.tres" id="6_4r5fu"]
-[ext_resource type="Resource" uid="uid://dx0ib1u1vyc63" path="res://loot-item/golden-sphere.tres" id="7_ekssx"]
 [ext_resource type="PackedScene" uid="uid://dsve5jxi3op64" path="res://quota/quota.tscn" id="7_mm867"]
 [ext_resource type="PackedScene" uid="uid://bleya7mqfp6v6" path="res://pause-screen/pause-screen.tscn" id="12_p2wha"]
 
@@ -35,6 +33,113 @@ albedo_color = Color(0.0862745, 0.0862745, 0.0862745, 1)
 
 [sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_1uxj4"]
 data = PackedVector3Array(1, 0, 1, -1, 0, 1, 1, 0, -1, -1, 0, 1, -1, 0, -1, 1, 0, -1)
+
+[sub_resource type="GDScript" id="GDScript_rxhpq"]
+script/source = "class_name LootItem
+extends Node3D
+
+@export var reward_approx: float = 100
+@export var pick_duration: float = 1.5
+
+@onready var _picking_area: Area3D = $Area3D
+@onready var _sprite: Sprite3D = $Sprite3D
+@onready var _sub_viewport: SubViewport = $SubViewport
+@onready var _progress_bar: ProgressBar = $SubViewport/Control/ProgressBar
+
+var _is_picking = false
+var _picking_time = 0.0
+var _player
+
+func _ready() -> void:
+	_picking_area.body_entered.connect(_on_enter)
+	_picking_area.body_exited.connect(_on_exit)
+
+func _process(delta: float) -> void:
+	if not _is_picking:
+		return
+		
+	var progress = _pick_progress(delta)
+	if progress >= 1:
+		_pick_complete()
+
+func _on_enter(body) -> void:
+	if not body is Player:
+		return
+	
+	_player = body
+	_pick_start()
+		
+func _on_exit(body) -> void:
+	if not body is Player:
+		return
+		
+	_pick_cancel()
+
+func _pick_start() -> void:
+	_is_picking = true
+	_picking_time = 0.0
+	
+	_sprite.texture = _sub_viewport.get_texture()
+	_sprite.visible = true
+
+func _pick_progress(delta: float) -> float:
+	_picking_time = clamp(_picking_time + delta, 0.0, pick_duration)
+	var progress = _picking_time / pick_duration
+	_progress_bar.value = progress * 100
+	
+	return progress
+
+func _pick_complete() -> void:
+	_is_picking = false
+	_sprite.visible = false
+	
+	if _player:
+		var reward = _calc_reward()
+		_player.give_reward(reward)
+		
+	get_parent().remove_child(self)
+
+func _pick_cancel() -> void:
+	_is_picking = false
+	_sprite.visible = false
+	_player = null
+	
+func _calc_reward() -> float:
+	var diff = reward_approx / 2
+	
+	return randf_range(reward_approx - diff, reward_approx + diff)
+"
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_x15mb"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_ca3ry"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_xlr6b"]
+
+[sub_resource type="PackedScene" id="PackedScene_2674t"]
+_bundled = {
+"conn_count": 0,
+"conns": PackedInt32Array(),
+"editable_instances": [],
+"names": PackedStringArray("LootItem", "script", "RigidBody3D", "CollisionShape3D", "shape", "MeshInstance3D", "mesh", "Area3D", "transform", "Sprite3D", "billboard", "no_depth_test", "SubViewport", "disable_3d", "transparent_bg", "gui_disable_input", "size", "render_target_update_mode", "Control", "layout_mode", "anchors_preset", "anchor_right", "anchor_bottom", "offset_right", "grow_horizontal", "grow_vertical", "ProgressBar", "anchor_left", "anchor_top", "offset_left", "offset_top", "offset_bottom"),
+"node_count": 9,
+"node_paths": [],
+"nodes": PackedInt32Array(-1, -1, 2, 0, -1, 1, 1, 0, 0, 0, 0, 3, 3, -1, 1, 4, 1, 0, 0, 0, 5, 5, -1, 1, 6, 2, 0, 0, 0, 7, 7, -1, 1, 8, 3, 0, 3, 0, 3, 3, -1, 1, 4, 4, 0, 0, 0, 9, 9, -1, 2, 10, 5, 11, 6, 0, 0, 0, 12, 12, -1, 5, 13, 6, 14, 6, 15, 6, 16, 7, 17, 8, 0, 6, 0, 18, 18, -1, 7, 19, 9, 20, 10, 21, 11, 22, 11, 23, 12, 24, 13, 25, 13, 0, 7, 0, 26, 26, -1, 12, 19, 5, 20, 14, 27, 15, 28, 15, 21, 15, 22, 15, 29, 16, 30, 17, 23, 18, 31, 19, 24, 13, 25, 13, 0),
+"variants": [SubResource("GDScript_rxhpq"), SubResource("BoxShape3D_x15mb"), SubResource("BoxMesh_ca3ry"), Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 0, 0, 0), SubResource("CylinderShape3D_xlr6b"), 1, true, Vector2i(256, 100), 4, 3, 15, 1.0, -56.0, 2, 8, 0.5, -100.0, -13.5, 100.0, 13.5],
+"version": 3
+}
+
+[sub_resource type="Resource" id="Resource_6wcbw"]
+script = ExtResource("5_ytluv")
+name = "garbage"
+rarity = 0
+scene = SubResource("PackedScene_2674t")
+
+[sub_resource type="Resource" id="Resource_ucvk3"]
+script = ExtResource("5_ytluv")
+name = "golden_sphere"
+rarity = 10
+scene = SubResource("PackedScene_2674t")
 
 [node name="Main" type="Node3D"]
 script = ExtResource("1_bir4h")
@@ -70,8 +175,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 1, 20)
 
 [node name="Tube" parent="." instance=ExtResource("2_dp1qa")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 10, 2.08165e-12)
-item_scene = ExtResource("5_67sra")
-items = Array[Resource("res://loot-item/loot-item-resourse.gd")]([ExtResource("6_4r5fu"), ExtResource("7_ekssx")])
+items = Array[ExtResource("5_ytluv")]([SubResource("Resource_6wcbw"), SubResource("Resource_ucvk3")])
 
 [node name="TubeButton" parent="." instance=ExtResource("3_u0ha8")]
 transform = Transform3D(-0.223795, 0, -0.974636, 0, 1, 0, 0.974636, 0, -0.223795, 2.08165e-12, 2.08165e-12, 10)
