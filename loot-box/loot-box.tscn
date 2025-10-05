@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://f5aiqtxurlnd"]
+[gd_scene load_steps=8 format=3 uid="uid://f5aiqtxurlnd"]
 
 [ext_resource type="Script" path="res://loot-box/loot-box.gd" id="1_7l1wq"]
 [ext_resource type="FontFile" uid="uid://bmokuc7oo7370" path="res://assets/medodica/MedodicaRegular.otf" id="2_k6ip1"]
@@ -9,6 +9,28 @@
 radial_segments = 6
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_r2twe"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_w60ub"]
+bg_color = Color(0.0862745, 0.0862745, 0.0862745, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6otr5"]
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+anti_aliasing = false
 
 [node name="LootBox" type="RigidBody3D"]
 script = ExtResource("1_7l1wq")
@@ -62,3 +84,5 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("2_k6ip1")
 theme_override_font_sizes/font_size = 32
+theme_override_styles/background = SubResource("StyleBoxFlat_w60ub")
+theme_override_styles/fill = SubResource("StyleBoxFlat_6otr5")

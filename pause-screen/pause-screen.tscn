@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://bleya7mqfp6v6"]
+[gd_scene load_steps=9 format=3 uid="uid://bleya7mqfp6v6"]
 
 [ext_resource type="Script" path="res://pause-screen/pause-screen.gd" id="1_473tb"]
 [ext_resource type="LabelSettings" uid="uid://tst8itchmjq" path="res://assets/label.tres" id="2_ocmrj"]
@@ -13,9 +13,63 @@ content_margin_top = 10.0
 content_margin_right = 10.0
 content_margin_bottom = 10.0
 bg_color = Color(0.105882, 0.105882, 0.105882, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+corner_detail = 2
+anti_aliasing = false
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2uoof"]
+content_margin_left = 10.0
+content_margin_top = 10.0
+content_margin_right = 10.0
+content_margin_bottom = 10.0
 bg_color = Color(0.105882, 0.105882, 0.105882, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+corner_detail = 2
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_f670g"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.160269, 0.160269, 0.160269, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+corner_detail = 2
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ksyim"]
+bg_color = Color(0.427493, 0.427493, 0.427493, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+corner_detail = 2
+anti_aliasing = false
 
 [node name="PauseScreen" type="Control"]
 layout_mode = 3
@@ -67,4 +121,6 @@ theme_override_fonts/font = ExtResource("3_0ihti")
 theme_override_font_sizes/font_size = 64
 theme_override_styles/normal = SubResource("StyleBoxFlat_e3341")
 theme_override_styles/hover = SubResource("StyleBoxFlat_2uoof")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_f670g")
+theme_override_styles/focus = SubResource("StyleBoxFlat_ksyim")
 text = "Quit"

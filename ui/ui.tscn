@@ -1,8 +1,21 @@
-[gd_scene load_steps=4 format=3 uid="uid://bfjd0cwaleh0b"]
+[gd_scene load_steps=5 format=3 uid="uid://bfjd0cwaleh0b"]
 
 [ext_resource type="Script" path="res://ui/ui.gd" id="1_aqu2k"]
 [ext_resource type="LabelSettings" uid="uid://tst8itchmjq" path="res://assets/label.tres" id="2_dnk1i"]
 [ext_resource type="LabelSettings" uid="uid://syl0qku71mfo" path="res://assets/red-label.tres" id="3_1d3im"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_u3njs"]
+bg_color = Color(0.0862745, 0.0862745, 0.0862745, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+corner_detail = 2
+anti_aliasing = false
 
 [node name="UI" type="Control"]
 layout_mode = 3
@@ -29,6 +42,7 @@ grow_horizontal = 2
 grow_vertical = 0
 pivot_offset = Vector2(2.08165e-12, 2.08165e-12)
 mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_u3njs")
 
 [node name="Label" type="Label" parent="MessagePanel"]
 layout_mode = 1
