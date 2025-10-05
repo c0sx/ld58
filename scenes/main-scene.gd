@@ -13,6 +13,7 @@ extends Node3D
 
 var _first_interacted = false
 var _is_quota_started = false
+var _score = 0.0
 
 func _ready() -> void:
 	Engine.max_fps = 60
@@ -26,6 +27,7 @@ func _ready() -> void:
 	_tube_button.exit_button_area.connect(_on_exit_button_area)
 	_tube_button.pressed.connect(_on_button_pressed)
 	
+	_player.item_collected.connect(_on_item_collected)
 	_player.inventory_changed.connect(_on_inventory_changed)
 	
 	_quota.quota_started.connect(_on_quota_started)
@@ -72,6 +74,10 @@ func _on_button_pressed() -> void:
 		_ui.hide_message()
 		
 	_tube.spawn()
+	
+func _on_item_collected(item: LootItemResource) -> void:
+	_score += item.score
+	_ui.update_score(_score)
 
 func _on_inventory_changed() -> void:
 	var plan = _player.build_plan(_quota.get_current_quota())
@@ -99,6 +105,7 @@ func _on_quota_finished() -> void:
 func _game_over() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	get_tree().paused = true
+	_game_over_screen.update_score(_score)
 	_game_over_screen.visible = true
 
 func _on_game_paused() -> void:

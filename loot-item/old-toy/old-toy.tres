@@ -6,3 +6,4 @@
 script = ExtResource("1_iqisg")
 name = "old toy"
 rarity = 2
+score = 50

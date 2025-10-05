@@ -6,3 +6,4 @@
 script = ExtResource("1_oacrl")
 name = "ball"
 rarity = 1
+score = 10

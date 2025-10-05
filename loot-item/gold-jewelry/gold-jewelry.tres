@@ -6,3 +6,4 @@
 script = ExtResource("1_26vvd")
 name = "gold jewelry"
 rarity = 5
+score = 500

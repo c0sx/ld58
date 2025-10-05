@@ -5,6 +5,7 @@ extends Control
 @onready var _label: Label = $MessagePanel/Label
 @onready var _timer: Label = $TimeLeft
 @onready var _inventory: VBoxContainer = $Inventory
+@onready var _score: Label = $Score
 
 func _ready() -> void:
 	_message.visible = false
@@ -47,3 +48,6 @@ func update_quota_plan(quota_plan: Dictionary) -> void:
 	
 func update_quota_timer(value: float) -> void:
 	_timer.text = "Time Left: " + str(int(value))
+
+func update_score(score: float) -> void:
+	_score.text = "Score: " + str(int(score))

@@ -13,6 +13,7 @@ extends CharacterBody3D
 @onready var _audio_stream_player: AudioStreamPlayer3D = $AudioStreamPlayer3D
 
 signal inventory_changed(value: Dictionary)
+signal item_collected(item: LootItemResource)
 
 var _gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
@@ -68,6 +69,7 @@ func collect_item(item: LootItemResource) -> void:
 	_inventory[item.name] = value + 1
 	
 	emit_signal("inventory_changed")
+	emit_signal("item_collected", item)
 
 func build_plan(quota: Dictionary) -> Dictionary:
 	var plan = {}
