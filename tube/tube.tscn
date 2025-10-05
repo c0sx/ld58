@@ -4,11 +4,15 @@
 [ext_resource type="PackedScene" uid="uid://cpjbpxu3if5h2" path="res://tube/spawner/spawner.tscn" id="2_d8uav"]
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_utvtq"]
+radial_segments = 6
+rings = 1
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cdufy"]
 albedo_color = Color(0.0862745, 0.0862745, 0.0862745, 1)
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_1xxgt"]
+radial_segments = 6
+rings = 1
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jv8ct"]
 albedo_color = Color(0.57, 0, 0, 1)

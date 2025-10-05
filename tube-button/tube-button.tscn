@@ -16,6 +16,8 @@ albedo_color = Color(0.0862745, 0.0862745, 0.0862745, 1)
 albedo_color = Color(0.0862745, 0.0862745, 0.0862745, 1)
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_4ja8e"]
+radial_segments = 8
+rings = 1
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ccsxk"]
 albedo_color = Color(1, 0, 0, 1)
@@ -27,7 +29,7 @@ resource_name = "press_button"
 tracks/0/type = "position_3d"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("MeshInstance3D2/MeshInstance3D/MeshInstance3D")
+tracks/0/path = NodePath("MeshInstance3D2/MeshInstance3D/ButtonMesh")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = PackedFloat32Array(0, 1, 1, 2.08165e-12, 2.08165e-12, 0.5, 1, 0.4, 2.08165e-12, 2.08165e-12, 1, 1, 1, 2.08165e-12, 2.08165e-12)
@@ -56,7 +58,7 @@ mesh = SubResource("BoxMesh_ioolh")
 skeleton = NodePath("../..")
 surface_material_override/0 = SubResource("StandardMaterial3D_byu1a")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="MeshInstance3D2/MeshInstance3D"]
+[node name="ButtonMesh" type="MeshInstance3D" parent="MeshInstance3D2/MeshInstance3D"]
 transform = Transform3D(-1.36929e-07, -0.5, 1.74393e-16, 0.5, -1.49128e-08, -1.74393e-16, 1.74393e-16, 1.74393e-16, 0.5, 1, 2.08165e-12, 2.08165e-12)
 mesh = SubResource("CylinderMesh_4ja8e")
 surface_material_override/0 = SubResource("StandardMaterial3D_ccsxk")

@@ -1,6 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://bleya7mqfp6v6"]
+[gd_scene load_steps=7 format=3 uid="uid://bleya7mqfp6v6"]
 
 [ext_resource type="Script" path="res://pause-screen/pause-screen.gd" id="1_473tb"]
+[ext_resource type="LabelSettings" uid="uid://tst8itchmjq" path="res://assets/label.tres" id="2_ocmrj"]
+[ext_resource type="FontFile" uid="uid://bmokuc7oo7370" path="res://assets/medodica/MedodicaRegular.otf" id="3_0ihti"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ux6q5"]
 bg_color = Color(0.105614, 0.105614, 0.105614, 1)
@@ -44,6 +46,7 @@ theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 64
 text = "Paused
 Press 'Esc' to resume"
+label_settings = ExtResource("2_ocmrj")
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -60,7 +63,8 @@ offset_right = 65.0
 offset_bottom = -288.0
 grow_horizontal = 2
 grow_vertical = 0
-theme_override_font_sizes/font_size = 50
+theme_override_fonts/font = ExtResource("3_0ihti")
+theme_override_font_sizes/font_size = 64
 theme_override_styles/normal = SubResource("StyleBoxFlat_e3341")
 theme_override_styles/hover = SubResource("StyleBoxFlat_2uoof")
 text = "Quit"

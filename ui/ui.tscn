@@ -1,6 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://bfjd0cwaleh0b"]
+[gd_scene load_steps=4 format=3 uid="uid://bfjd0cwaleh0b"]
 
 [ext_resource type="Script" path="res://ui/ui.gd" id="1_aqu2k"]
+[ext_resource type="LabelSettings" uid="uid://tst8itchmjq" path="res://assets/label.tres" id="2_dnk1i"]
+[ext_resource type="LabelSettings" uid="uid://syl0qku71mfo" path="res://assets/red-label.tres" id="3_1d3im"]
 
 [node name="UI" type="Control"]
 layout_mode = 3
@@ -37,6 +39,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_font_sizes/font_size = 32
 text = "Test"
+label_settings = ExtResource("2_dnk1i")
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -54,6 +57,7 @@ theme_override_colors/font_color = Color(1, 0, 0, 1)
 theme_override_font_sizes/font_size = 32
 text = "Time Left: 0
 "
+label_settings = ExtResource("3_1d3im")
 horizontal_alignment = 2
 vertical_alignment = 1
 

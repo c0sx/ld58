@@ -1,0 +1,8 @@
+[gd_resource type="LabelSettings" load_steps=2 format=3 uid="uid://2e60rgc7cgpn"]
+
+[ext_resource type="FontFile" uid="uid://bmokuc7oo7370" path="res://assets/medodica/MedodicaRegular.otf" id="1_c33jr"]
+
+[resource]
+font = ExtResource("1_c33jr")
+font_size = 64
+font_color = Color(0, 1, 0, 1)

@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://cgwgn3d0bsk5b"]
+[gd_scene load_steps=23 format=3 uid="uid://cgwgn3d0bsk5b"]
 
 [ext_resource type="Script" path="res://scenes/main-scene.gd" id="1_bir4h"]
 [ext_resource type="PackedScene" uid="uid://b7kqgb07sf7gj" path="res://work-zone/work-zone.tscn" id="1_k2p32"]
@@ -30,6 +30,15 @@ ambient_light_energy = 0.0
 tonemap_mode = 2
 glow_enabled = true
 
+[sub_resource type="Gradient" id="Gradient_5hslq"]
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_mq3um"]
+gradient = SubResource("Gradient_5hslq")
+fill = 1
+fill_from = Vector2(0.504854, 0.502427)
+fill_to = Vector2(0.949029, 0.883495)
+
 [sub_resource type="PlaneMesh" id="PlaneMesh_85ed2"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gumpb"]
@@ -48,11 +57,12 @@ environment = SubResource("Environment_effs6")
 transform = Transform3D(1, -6.97574e-16, -1.52459e-23, -1.5246e-23, -4.37114e-08, 1, -6.97574e-16, -1, -4.37114e-08, 2.08165e-12, 20, 12)
 light_color = Color(1, 0.956863, 0.878431, 1)
 light_energy = 30.0
+light_indirect_energy = 0.0
+light_projector = SubResource("GradientTexture2D_mq3um")
+light_size = 10.0
 light_specular = 1.0
 shadow_enabled = true
-shadow_bias = 0.05
-shadow_blur = 2.0
-spot_range = 50.0
+spot_range = 30.0
 spot_angle = 60.0
 
 [node name="Plane" type="MeshInstance3D" parent="."]

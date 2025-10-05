@@ -37,11 +37,12 @@ func update_quota_plan(quota_plan: Dictionary) -> void:
 		var label = Label.new()
 		label.text = k + ": " + str(have) + "/" + str(need)
 		label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
-		label.add_theme_font_size_override("font_size", 32)
 		
 		if need > 0 and have >= need:
-			label.add_theme_color_override("font_color", Color(0, 1, 0, 1))
-			
+			label.label_settings = preload("res://assets/green-label.tres")
+		else:
+			label.label_settings = preload("res://assets/label.tres")
+		
 		_inventory.add_child(label)
 	
 func update_quota_timer(value: float) -> void:
