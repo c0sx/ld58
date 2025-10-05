@@ -12,8 +12,7 @@ func _ready() -> void:
 	_spawner.items = items
 
 func spawn() -> void:
-	var resouce = _spawner.spawn()
-	var item = resouce.scene.instantiate()
+	var item = _spawner.spawn()
 	var box = box_scene.instantiate()
 	box.add_item(item)
 	

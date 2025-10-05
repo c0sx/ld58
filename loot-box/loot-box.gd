@@ -8,7 +8,7 @@ extends Node3D
 @onready var _viewport: SubViewport = $SubViewport
 @onready var _progress_bar: ProgressBar = $SubViewport/Control/ProgressBar
 
-var _loot_item: Node3D
+var _loot_item: LootItemResource
 var _is_picking = false
 var _picking_time = 0.0
 var _player
@@ -17,9 +17,16 @@ func _ready() -> void:
 	_picking_area.body_entered.connect(_on_enter)
 	_picking_area.body_exited.connect(_on_exit)
 
-func add_item(item: Node3D) -> void:
+func _process(delta: float) -> void:
+	if not _is_picking:
+		return
+		
+	var progress = _pick_progress(delta)
+	if progress >= 1:
+		_pick_complete()
+
+func add_item(item: LootItemResource) -> void:
 	_loot_item = item
-	add_child(item)
 
 func _on_enter(body) -> void:
 	if not body is Player:
@@ -53,7 +60,9 @@ func _pick_complete() -> void:
 	_sprite.visible = false
 	
 	if _player:
+		print("rewarding", 100)
 		_player.give_reward(100)
+		_player.collect_item(_loot_item)
 		
 	get_parent().remove_child(self)
 

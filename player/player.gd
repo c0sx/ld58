@@ -15,6 +15,7 @@ signal money_changed(value: float)
 var _rotation: Vector3 = Vector3.ZERO
 var _vertical_looking_limit: int = 60
 var _interactable: Node3D
+var _inventory: Dictionary = {} # [string, int]
 
 var _money: float = 0.0
 
@@ -55,6 +56,9 @@ func _interact() -> void:
 func give_reward(value: int) -> void:
 	_money += value
 	emit_signal("money_changed", _money)
+	
+func collect_item(item: LootItemResource) -> void:
+	print("collected: ", item)
 
 func has_enough_money(value: float) -> bool:
 	return _money >= value

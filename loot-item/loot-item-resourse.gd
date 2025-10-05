@@ -3,4 +3,3 @@ extends Resource
 
 @export var name: String
 @export var rarity: int
-@export var scene: PackedScene

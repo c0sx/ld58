@@ -1,10 +1,8 @@
-[gd_resource type="Resource" script_class="LootItemResource" load_steps=3 format=3 uid="uid://cplc5y1os18kd"]
+[gd_resource type="Resource" script_class="LootItemResource" load_steps=2 format=3 uid="uid://cplc5y1os18kd"]
 
 [ext_resource type="Script" path="res://loot-item/loot-item-resourse.gd" id="1_iqisg"]
-[ext_resource type="PackedScene" uid="uid://hv1ptv2uggwq" path="res://loot-item/old-toy/old-toy-loot-item.tscn" id="1_wuu3o"]
 
 [resource]
 script = ExtResource("1_iqisg")
 name = "old toy"
 rarity = 2
-scene = ExtResource("1_wuu3o")

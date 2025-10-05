@@ -3,7 +3,7 @@ extends Node3D
 @onready var _ui: MainSceneUI = $UI
 @onready var _working_zone: WorkingZone = $WorkingZone
 @onready var _player: Player = $Player
-@onready var _button: TubeButton = $TubeButton
+@onready var _tube_button: TubeButton = $TubeButton
 @onready var _tube: Tube = $Tube
 @onready var _quota: Quota = $Quota
 @onready var _pause_controller: PauseController = $PauseController
@@ -12,15 +12,14 @@ extends Node3D
 
 var _first_interacted = false
 var _is_quota_started = false
-var _is_paused = false
 
 func _ready() -> void:
 	_working_zone.enter_working_zone.connect(_on_enter_working_zone)
 	_working_zone.exit_working_zone.connect(_on_exit_working_zone)
 	
-	_button.enter_button_area.connect(_on_enter_button_area)
-	_button.exit_button_area.connect(_on_exit_button_area)
-	_button.pressed.connect(_on_button_pressed)
+	_tube_button.enter_button_area.connect(_on_enter_button_area)
+	_tube_button.exit_button_area.connect(_on_exit_button_area)
+	_tube_button.pressed.connect(_on_button_pressed)
 	
 	_player.money_changed.connect(_on_money_changed)
 	
