@@ -14,6 +14,8 @@ var _first_interacted = false
 var _is_quota_started = false
 
 func _ready() -> void:
+	Engine.max_fps = 60
+
 	_working_zone.enter_working_zone.connect(_on_enter_working_zone)
 	_working_zone.exit_working_zone.connect(_on_exit_working_zone)
 	
