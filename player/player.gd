@@ -26,8 +26,6 @@ var _step_timer = 0.0
 func _ready() -> void:
 	_step_timer = player_step_interval
 	
-	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-	
 func _physics_process(delta: float) -> void:
 	var input_dir = Input.get_vector("move_left", "move_right", "move_forward", "move_back")
 	var direction = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()

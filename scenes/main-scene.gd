@@ -16,6 +16,7 @@ var _is_quota_started = false
 var _score = 0.0
 
 func _ready() -> void:
+	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	Engine.max_fps = 60
 
 	_working_zone.enter_working_zone.connect(_on_enter_working_zone)
@@ -42,6 +43,10 @@ func _ready() -> void:
 	
 	_ui.welcome_message()
 	_ui.update_quota_timer(_quota.quota_timer)
+
+func _input(event) -> void:
+	if event is InputEventMouseButton:
+		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
 func _on_enter_working_zone() -> void:
 	_ui.hide_message()
