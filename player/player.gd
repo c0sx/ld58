@@ -11,9 +11,13 @@ extends CharacterBody3D
 
 @onready var _camera: Camera3D = $Camera3D
 @onready var _audio_stream_player: AudioStreamPlayer3D = $AudioStreamPlayer3D
+@onready var _picking_zone: Area3D = $Area3D
 
 signal inventory_changed(value: Dictionary)
 signal item_collected(item: LootItemResource)
+signal picking_area_increased(value: float)
+signal picking_duration_reduced(value: float)
+signal player_started
 
 var _gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
@@ -22,9 +26,14 @@ var _vertical_looking_limit: int = 60
 var _interactable: Node3D
 var _inventory: Dictionary = {} # [string, int]
 var _step_timer = 0.0
+var _picking_items: Dictionary = {} # [Lootbox, true]
+var _has_started = false
 
 func _ready() -> void:
 	_step_timer = player_step_interval
+	
+	_picking_zone.body_entered.connect(_on_pick_enter)
+	_picking_zone.body_exited.connect(_on_pick_exit)
 	
 func _physics_process(delta: float) -> void:
 	var input_dir = Input.get_vector("move_left", "move_right", "move_forward", "move_back")
@@ -32,6 +41,10 @@ func _physics_process(delta: float) -> void:
 
 	velocity.x = direction.x * player_speed
 	velocity.z = direction.z * player_speed
+	
+	if !_has_started && velocity.length() > 0:
+		emit_signal("player_started")
+		_has_started = true
 	
 	if velocity.length() > 0.1 and is_on_floor():
 		_step_timer -= delta
@@ -61,13 +74,28 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func set_interactable(interactable: Node3D) -> void:
 	_interactable = interactable
-		
+
 func collect_item(item: LootItemResource) -> void:
+	emit_signal("item_collected", item)
+
+func increase_picking_area(value: float) -> void:
+	_picking_zone.scale += Vector3.ONE * value
+	
+	emit_signal("picking_area_increased", value)
+
+func reduce_picking_duration(value: float) -> void:
+	if player_pick_duration - value <= 0.2:
+		return
+	
+	player_pick_duration -= value;
+	
+	emit_signal("picking_duration_reduced", value)
+	
+func add_item_into_inventory(item: LootItemResource) -> void:
 	var value = _inventory.get(item.name, 0)
 	_inventory[item.name] = value + 1
 	
 	emit_signal("inventory_changed")
-	emit_signal("item_collected", item)
 
 func build_plan(quota: Dictionary) -> Dictionary:
 	var plan = {}
@@ -120,3 +148,13 @@ func _play_step_sound() -> void:
 	if not _audio_stream_player.is_playing():
 		_audio_stream_player.stream = load('res://assets/sounds/step.wav')
 		_audio_stream_player.play()
+
+func _on_pick_enter(body) -> void:
+	if body is LootBox and !_picking_items.has(body):
+		_picking_items[body] = true
+		body.pick_start(self)
+	
+func _on_pick_exit(body) -> void:
+	if body is LootBox and _picking_items.has(body):
+		body.pick_cancel()
+		_picking_items.erase(body)

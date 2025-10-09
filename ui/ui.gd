@@ -6,6 +6,7 @@ extends Control
 @onready var _timer: Label = $TimeLeft
 @onready var _inventory: VBoxContainer = $Inventory
 @onready var _score: Label = $Score
+@onready var _upgrades: VBoxContainer = $Upgrades
 
 func _ready() -> void:
 	_message.visible = false
@@ -15,7 +16,7 @@ func render_return_to_the_working_zone_message(remaining: float) -> void:
 	_message.visible = true
 
 func welcome_message() -> void:
-	_label.text = "Get back to work"
+	_label.text = "Get back to work\nWASD"
 	_message.visible = true
 
 func render_interact_message() -> void:
@@ -51,3 +52,21 @@ func update_quota_timer(value: float) -> void:
 
 func update_score(score: float) -> void:
 	_score.text = "Score: " + str(int(score))
+
+func update_upgrades(upgrades: Dictionary) -> void:
+	for child in _upgrades.get_children():
+		_upgrades.remove_child(child)
+
+	for key in upgrades:
+		var value = upgrades[key]
+	
+		var label = Label.new()
+		label.text = key + ": " + value
+		label.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
+		
+		if key == "Difficulty":
+			label.label_settings = preload("res://assets/red-label.tres")
+		else:
+			label.label_settings = preload("res://assets/label.tres")
+		
+		_upgrades.add_child(label)

@@ -93,24 +93,6 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_x6tyg")
 
-[node name="Score" type="Label" parent="."]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -138.0
-offset_top = 54.0
-offset_right = 138.0
-offset_bottom = 118.0
-grow_horizontal = 2
-grow_vertical = 2
-text = "Score: 0"
-label_settings = ExtResource("2_b2mix")
-horizontal_alignment = 1
-vertical_alignment = 1
-
 [node name="Label" type="Label" parent="."]
 layout_mode = 1
 anchors_preset = 8
@@ -119,9 +101,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -173.5
-offset_top = -44.0
+offset_top = -246.0
 offset_right = 173.5
-offset_bottom = 44.0
+offset_bottom = -158.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_font_sizes/font_size = 64
@@ -130,19 +112,37 @@ label_settings = ExtResource("2_b2mix")
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="Score" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -138.0
+offset_top = -146.0
+offset_right = 138.0
+offset_bottom = -82.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Score: 0"
+label_settings = ExtResource("2_b2mix")
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="RestartButton" type="Button" parent="."]
 layout_mode = 1
-anchors_preset = 7
+anchors_preset = 8
 anchor_left = 0.5
-anchor_top = 1.0
+anchor_top = 0.5
 anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -92.0
-offset_top = -377.0
-offset_right = 92.0
-offset_bottom = -300.0
+anchor_bottom = 0.5
+offset_left = -102.0
+offset_top = 54.0
+offset_right = 102.0
+offset_bottom = 138.0
 grow_horizontal = 2
-grow_vertical = 0
+grow_vertical = 2
 theme_override_fonts/font = ExtResource("3_c6pqt")
 theme_override_font_sizes/font_size = 64
 theme_override_styles/normal = SubResource("StyleBoxFlat_6deev")
@@ -150,3 +150,28 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_y67lq")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_jvg1q")
 theme_override_styles/focus = SubResource("StyleBoxFlat_scor5")
 text = "Restart"
+
+[node name="Items" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -350.0
+offset_top = -146.0
+offset_right = -50.0
+offset_bottom = -96.0
+grow_horizontal = 0
+grow_vertical = 2
+
+[node name="Upgrades" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 50.0
+offset_top = -146.0
+offset_right = 350.0
+offset_bottom = -96.0
+grow_vertical = 2

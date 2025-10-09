@@ -10,6 +10,8 @@ extends Node3D
 
 @onready var _spawner: Spawner = $Spawner
 
+signal tube_amount_increased(value: int)
+
 func _ready() -> void:
 	_spawner.items = items
 
@@ -26,6 +28,11 @@ func spawn() -> void:
 
 		add_child(box)
 		await get_tree().create_timer(0.1).timeout
+
+func increase_amount_value(value: int) -> void:
+	spawn_amount_max += value
+	
+	emit_signal("tube_amount_increased", value)
 
 func _calc_spawn_position() -> Vector3:
 	var x = randf_range(_spawner.position.x-spawn_radius, _spawner.position.x + spawn_radius)
