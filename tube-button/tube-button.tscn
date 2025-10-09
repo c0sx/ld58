@@ -32,13 +32,14 @@ material = SubResource("StandardMaterial3D_qitct")
 
 [sub_resource type="Animation" id="Animation_oid1b"]
 resource_name = "press_button"
+length = 0.8
 tracks/0/type = "position_3d"
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/path = NodePath("MeshInstance3D2/MeshInstance3D/ButtonMesh")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
-tracks/0/keys = PackedFloat32Array(0, 1, 1, 2.08165e-12, 2.08165e-12, 0.5, 1, 0.4, 2.08165e-12, 2.08165e-12, 1, 1, 1, 2.08165e-12, 2.08165e-12)
+tracks/0/keys = PackedFloat32Array(0, 1, 1, 2.08165e-12, 2.08165e-12, 0.5, 1, 0.4, 2.08165e-12, 2.08165e-12, 0.8, 1, 1, 2.08165e-12, 2.08165e-12)
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_p8bek"]
 _data = {

@@ -2,6 +2,8 @@ class_name Tube
 extends Node3D
 
 @export var spawn_radius: float = 0.5
+@export var spawn_amount_min: int = 1
+@export var spawn_amount_max: int = 2
 
 @export var box_scene: PackedScene
 @export var items: Array[LootItemResource] = []
@@ -12,7 +14,7 @@ func _ready() -> void:
 	_spawner.items = items
 
 func spawn() -> void:
-	var amount = randf_range(1, 2)
+	var amount = randf_range(spawn_amount_min, spawn_amount_max)
 	
 	for i in amount:
 		var item = _spawner.spawn()

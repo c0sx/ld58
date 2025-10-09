@@ -7,3 +7,5 @@ script = ExtResource("1_iqisg")
 name = "old toy"
 rarity = 2
 score = 50
+color = Color(0.560784, 1, 0.529412, 1)
+in_quota = true

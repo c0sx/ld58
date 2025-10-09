@@ -28,13 +28,11 @@ func _ready() -> void:
 	_picking_area.body_entered.connect(_on_enter)
 	_picking_area.body_exited.connect(_on_exit)
 	
-	var color = _select_color()
-	if color:
-		var mat = StandardMaterial3D.new()
-		mat.emission_enabled = true
-		mat.emission = color
-		mat.emission_energy_multiplier = 1.2
-		_mesh.material_override = mat
+	var mat = StandardMaterial3D.new()
+	mat.emission_enabled = true
+	mat.emission = _loot_item.color
+	mat.emission_energy_multiplier = 1.2
+	_mesh.material_override = mat
 
 func _process(delta: float) -> void:
 	if not _is_picking:
@@ -91,13 +89,6 @@ func _pick_cancel() -> void:
 	_is_picking = false
 	_sprite.visible = false
 	_player = null
-
-func _select_color() -> Color:
-	if len(colors) == 0:
-		return Color(1, 1, 1, 1)
-		
-	var idx = randi_range(0, len(colors) - 1)
-	return colors[idx]
 
 func _play_pick_complete() -> void:
 	if len(_sounds) == 0:

@@ -58,30 +58,48 @@ func _on_finish() -> void:
 	emit_signal('quota_finished')
 
 func _make_quota() -> Dictionary:
-	randomize()
-	
 	var weights: Array[float] = []
-	var sum: float = 0.0
 	
 	for item in items:
 		var value = 1.0 / item.rarity
 		weights.append(value)
-		
-		sum += value
 	
-	for i in weights.size():
-		weights[i] /= sum
-		
+	var sum_valuable: float = 0.0
+	for i in items.size():
+		if items[i].in_quota:
+			sum_valuable += weights[i]
+			
+	var fractional := []
+	for i in items.size():
+		if items[i].in_quota:
+			var pi_cond := weights[i] / sum_valuable
+			fractional.append({"i": i, "value": start_quota_items * pi_cond})
+			
 	var quota: Dictionary = {}
-	for k in start_quota_items:
-		var r := randf()
-		var acc := 0.0
-		
-		for i in items.size():
-			acc += weights[i]
-			if r <= acc:
-				var value = quota.get(items[i].name, 0)
-				quota[items[i].name] = value + 1
-				break
+	var remain: float = 0.0
 	
-	return quota
+	for e in fractional:
+		var q := int(floor(e["value"]))
+		var item_name = items[e["i"]].name
+		
+		quota[item_name] = q
+		remain += e["value"] - q
+	
+	var need = int(round(remain))
+	fractional.sort_custom(func(a, b):
+		return a["value"] - int(floor(a["value"])) > b["value"] - int(floor(b["value"]))
+	)
+	
+	for j in min(need, fractional.size()):
+		var i = fractional[j]["i"]
+		quota[items[i].name] += 1
+	
+	var result: Dictionary = {}
+	for k in quota:
+		var v = quota[k]
+		if v == 0:
+			continue
+		
+		result[k] = v
+	
+	return result

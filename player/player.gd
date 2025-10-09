@@ -95,10 +95,7 @@ func build_plan(quota: Dictionary) -> Dictionary:
 	return plan
 	
 func has_engough(item_name: String, need_value: int) -> bool:
-	if not _inventory.has(item_name):
-		return false
-		
-	var have_value = _inventory[item_name];
+	var have_value = _inventory.get(item_name, 0)
 	
 	return have_value >= need_value
 

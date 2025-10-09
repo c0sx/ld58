@@ -5,4 +5,6 @@
 [resource]
 script = ExtResource("1_brimu")
 name = "trash"
-rarity = 2
+rarity = 3
+score = 0
+color = Color(0.878431, 0.878431, 0.878431, 1)
