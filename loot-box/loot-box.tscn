@@ -1,14 +1,23 @@
-[gd_scene load_steps=8 format=3 uid="uid://f5aiqtxurlnd"]
+[gd_scene load_steps=18 format=3 uid="uid://f5aiqtxurlnd"]
 
 [ext_resource type="Script" path="res://loot-box/loot-box.gd" id="1_7l1wq"]
+[ext_resource type="Resource" uid="uid://3sdsic4taway" path="res://loot-item/item-ball.tres" id="2_f0wje"]
 [ext_resource type="FontFile" uid="uid://bmokuc7oo7370" path="res://assets/medodica/MedodicaRegular.otf" id="2_k6ip1"]
+[ext_resource type="Resource" uid="uid://dblcintl450us" path="res://loot-item/item-gold-jewelry.tres" id="3_5oyvc"]
+[ext_resource type="Resource" uid="uid://ck35dlroa1v7c" path="res://loot-item/item-old-toy.tres" id="4_qhtmh"]
+[ext_resource type="Resource" uid="uid://ds54m400xxs1i" path="res://loot-item/item-trash.tres" id="5_ruqje"]
+[ext_resource type="AudioStream" uid="uid://b0eh35kj0e5hh" path="res://assets/sounds/pickup0.wav" id="6_3acn4"]
+[ext_resource type="AudioStream" uid="uid://b53oogwytnhgx" path="res://assets/sounds/pickup1.wav" id="7_ofgay"]
+[ext_resource type="AudioStream" uid="uid://ba4rfyrvon3ms" path="res://assets/sounds/pickup2.wav" id="8_mjlv0"]
+[ext_resource type="AudioStream" uid="uid://c4yvqnu1df4l3" path="res://assets/sounds/pickup3.wav" id="9_hylg5"]
+[ext_resource type="AudioStream" uid="uid://bex26ldkf8mhn" path="res://assets/sounds/pickup4.wav" id="10_y83pv"]
+[ext_resource type="AudioStream" uid="uid://ds5m1db5sk0fd" path="res://assets/sounds/pickup-boom.wav" id="11_04gi4"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_t3a5r"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nivwe"]
 emission_enabled = true
-emission = Color(0.72195, 0.381742, 2.50551e-07, 1)
-emission_energy_multiplier = 2.5
+emission = Color(1, 1, 1, 1)
 emission_on_uv2 = true
 
 [sub_resource type="SphereMesh" id="SphereMesh_qai8r"]
@@ -42,6 +51,10 @@ anti_aliasing = false
 
 [node name="LootBox" type="RigidBody3D"]
 script = ExtResource("1_7l1wq")
+colors = Array[Color]([Color(0.952941, 0.427451, 0.490196, 1), Color(0.72549, 0.796078, 0, 1), Color(0.560784, 1, 0.529412, 1), Color(0.878431, 0.878431, 0.878431, 1), Color(0.0235294, 0.258824, 1, 1)])
+loot_items = Array[Resource("res://loot-item/loot-item.gd")]([ExtResource("2_f0wje"), ExtResource("3_5oyvc"), ExtResource("4_qhtmh"), ExtResource("5_ruqje")])
+successful_sounds = Array[AudioStream]([ExtResource("6_3acn4"), ExtResource("7_ofgay"), ExtResource("8_mjlv0"), ExtResource("9_hylg5"), ExtResource("10_y83pv")])
+negative_sounds = Array[AudioStream]([ExtResource("11_04gi4")])
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(0.7, 0, 0, 0, 0.7, 0, 0, 0, 0.7, 0, 0, 0)

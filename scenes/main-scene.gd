@@ -1,3 +1,4 @@
+class_name World
 extends Node3D
 
 @onready var _ui: MainSceneUI = $UI
@@ -13,9 +14,9 @@ extends Node3D
 
 var _first_interacted = false
 var _is_quota_started = false
-var _score = 0.0
+
 var _upgrades: Dictionary = {}
-var _items: Dictionary = {}
+var _items_history: Dictionary = {}
 
 func _ready() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
@@ -37,12 +38,13 @@ func _ready() -> void:
 	_player.picking_area_increased.connect(_on_picking_area_increased)
 	_player.picking_duration_reduced.connect(_on_picking_duration_reduced)
 	_player.player_started.connect(_on_player_started)
-	
+	_player.score_updated.connect(_on_player_score_updated)
+
 	_quota.quota_started.connect(_on_quota_started)
 	_quota.quota_timer_tick.connect(_on_quota_timer_tick)
 	_quota.quota_finished.connect(_on_quota_finished)
 	_quota.quota_timer_increased.connect(_on_quota_timer_increased)
-	
+
 	_pause_controller.game_paused.connect(_on_game_paused)
 	_pause_controller.game_resumed.connect(_on_game_resumed)
 
@@ -55,6 +57,9 @@ func _ready() -> void:
 func _input(event) -> void:
 	if event is InputEventMouseButton:
 		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+
+func _on_player_started() -> void:
+	_ui.hide_message()
 
 func _on_enter_working_zone() -> void:
 	_ui.hide_message()
@@ -88,14 +93,14 @@ func _on_button_pressed() -> void:
 
 	_tube.spawn()
 
-func _on_item_collected(item: LootItemResource) -> void:
-	_score += item.score
-	_ui.update_score(_score)
+func _on_item_collected(item: LootItem) -> void:
+	item.on_loot(_player, _quota, _tube)
 
-	item.handle_collected(_player, _quota, _tube)
-	
-	var value = _items.get(item.name, 0)
-	_items[item.name] = value + 1
+	var value = _items_history.get(item.name, 0)
+	_items_history[item.name] = value + 1
+
+func _on_player_score_updated(score: int) -> void:
+	_ui.update_score(score)
 
 func _on_inventory_changed() -> void:
 	var plan = _player.build_plan(_quota.get_current_quota())
@@ -106,14 +111,18 @@ func _on_quota_timer_tick(remaining: float) -> void:
 
 func _on_quota_started(quota: Dictionary, timer: float, difficulty: int) -> void:
 	_is_quota_started = true
-	
+
 	var plan = _player.build_plan(quota)
 	_ui.update_quota_plan(plan)
 	_ui.update_quota_timer(timer)
-	
+
 	if difficulty > 0:
-		_upgrades["Difficulty"] = "+" + str(difficulty)
-		
+		_upgrades["Difficulty"] = {
+			"value": difficulty,
+			"str": "+" + str(difficulty),
+			"limit": 18
+		}
+
 		_ui.update_upgrades(_upgrades)
 
 func _on_quota_finished() -> void:
@@ -129,8 +138,9 @@ func _on_quota_finished() -> void:
 func _game_over() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	get_tree().paused = true
-	
-	_game_over_screen.update_score(_score, _upgrades, _items)
+
+	var score = _player.get_score()
+	_game_over_screen.update_score(score, _upgrades, _items_history)
 	_game_over_screen.visible = true
 
 func _on_game_paused() -> void:
@@ -143,29 +153,44 @@ func _on_game_resumed() -> void:
 	get_tree().paused = false
 	_pause_screen.visible = false
 
-func _on_quota_timer_increased(value: int) -> void:
-	var current = _upgrades.get("Timer", 0)
-	_upgrades["Timer"] = "+" + str(int(current) + value)
-	
-	_ui.update_upgrades(_upgrades)
+func _on_quota_timer_increased(value: int, maximum) -> void:
+	var current = _upgrades.get("Timer", {"value": 0})
 
-func _on_picking_area_increased(value: float) -> void:
-	var current = _upgrades.get("Loot area", 0.0)
-	_upgrades["Loot area"] = "+" + str(float(current) + value)
-
-	_ui.update_upgrades(_upgrades)
-
-func _on_picking_duration_reduced(value: float) -> void:
-	var current = _upgrades.get("Loot speed", 0.0)
-	_upgrades["Loot speed"] = "+" + str(float(current) + value)
+	_upgrades["Timer"] = {
+		"value": int(current["value"]) + value,
+		"str": "+" + str(int(current["value"]) + value),
+		"maximum": maximum
+	}
 
 	_ui.update_upgrades(_upgrades)
 
-func _on_player_started() -> void:
-	_ui.hide_message()
+func _on_picking_area_increased(value: float, maximum: bool) -> void:
+	var current = _upgrades.get("Loot area", {"value": 0.0})
 
-func _on_amount_increased(value: int) -> void:
-	var current = _upgrades.get("Amount", 0)
-	_upgrades["Amount"] = "+" + str(int(current) + value)
+	_upgrades["Loot area"] = {
+		"value": float(current["value"]) + value,
+		"str": "+" + str(float(current["value"]) + value),
+		"maximum": maximum
+	}
+
+	_ui.update_upgrades(_upgrades)
+
+func _on_picking_duration_reduced(value: float, maximum: bool) -> void:
+	var current = _upgrades.get("Loot speed", {"value": 0.0})
+	_upgrades["Loot speed"] = {
+		"value": float(current["value"]) + value,
+		"str": "+" + str(float(current["value"]) + value),
+		"maximum": maximum
+	}
+
+	_ui.update_upgrades(_upgrades)
+
+func _on_amount_increased(value: int, maximum: bool) -> void:
+	var current = _upgrades.get("Amount", {"value": 0})
+	_upgrades["Amount"] = {
+		"value": int(current["value"]) + value,
+		"str": "+" + str(int(current["value"]) + value),
+		"maximum": maximum
+	}
 
 	_ui.update_upgrades(_upgrades)

@@ -1,0 +1,59 @@
+[gd_resource type="Resource" script_class="LootItem" load_steps=16 format=3 uid="uid://3sdsic4taway"]
+
+[ext_resource type="Script" path="res://loot-item/effect-add-score.gd" id="1_th0qw"]
+[ext_resource type="Script" path="res://loot-item/effect-add-to-inventory.gd" id="2_l0rpc"]
+[ext_resource type="Script" path="res://loot-item/loot-item.gd" id="3_40p3r"]
+[ext_resource type="Script" path="res://loot-item/effect-apply-upgrade.gd" id="3_vdfm7"]
+[ext_resource type="Script" path="res://loot-item/upgrade-increase-area.gd" id="4_1wqgg"]
+[ext_resource type="Script" path="res://loot-item/upgrade-increase-timer.gd" id="5_73846"]
+[ext_resource type="Script" path="res://loot-item/upgrade-increase-loot-speed.gd" id="6_ewkwl"]
+[ext_resource type="Script" path="res://loot-item/upgrade-increase-amount.gd" id="7_h52cj"]
+
+[sub_resource type="Resource" id="Resource_iat7e"]
+script = ExtResource("1_th0qw")
+score = 50
+
+[sub_resource type="Resource" id="Resource_nf17t"]
+script = ExtResource("2_l0rpc")
+
+[sub_resource type="Resource" id="Resource_mvrmr"]
+script = ExtResource("4_1wqgg")
+min_range = 0.05
+max_range = 0.2
+limit = 6
+step = 0.05
+score = 50
+
+[sub_resource type="Resource" id="Resource_2gdcd"]
+script = ExtResource("5_73846")
+value = 1
+limit = 50
+score = 50
+
+[sub_resource type="Resource" id="Resource_wff57"]
+script = ExtResource("6_ewkwl")
+min_range = 0.025
+max_range = 0.05
+limit = 0.2
+step = 0.025
+score = 50
+
+[sub_resource type="Resource" id="Resource_jceoa"]
+script = ExtResource("7_h52cj")
+value = 1
+limit = 7
+score = 50
+
+[sub_resource type="Resource" id="Resource_faohw"]
+script = ExtResource("3_vdfm7")
+chance = 0.05
+upgrades = Array[Resource("res://loot-item/loot-upgrade.gd")]([SubResource("Resource_mvrmr"), SubResource("Resource_2gdcd"), SubResource("Resource_wff57"), SubResource("Resource_jceoa")])
+
+[resource]
+script = ExtResource("3_40p3r")
+name = "ball"
+rarity = 2
+in_quota = true
+is_negative_item = false
+emission = 1.0
+effects = Array[Resource("res://loot-item/loot-effect.gd")]([SubResource("Resource_iat7e"), SubResource("Resource_nf17t"), SubResource("Resource_faohw")])

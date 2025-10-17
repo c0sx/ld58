@@ -2,7 +2,7 @@ class_name Quota
 extends Node3D
 
 @export var quota_timer: float = 10.0
-@export var items: Array[LootItemResource] = []
+@export var loot_items: Array[LootItem] = []
 @export var start_quota_items = 3
 
 @onready var _timer: Timer = $Timer
@@ -12,11 +12,12 @@ var _current_time: float = 0.0
 var _current_quota: Dictionary
 var _round: int = 0
 var _difficulty: int = 0
+var _current_quota_timer = 0.0
 
 signal quota_started(quota: Dictionary, time: float)
 signal quota_timer_tick
 signal quota_finished
-signal quota_timer_increased(value: int)
+signal quota_timer_increased(value: int, maximum: bool)
 
 func _ready() -> void:
 	_timer.timeout.connect(_on_tick)
@@ -24,6 +25,7 @@ func _ready() -> void:
 
 func start() -> void:
 	_total_timer.wait_time = quota_timer
+	_current_quota_timer = quota_timer
 
 	_round += 1
 	_current_time = 0.0
@@ -50,16 +52,19 @@ func check_quota(player: Player) -> bool:
 			return false
 
 	return true
+	
+func get_quota_timer() -> float:
+	return quota_timer
 
-func increase_timer(value: int) -> void:
+func increase_timer(value: int, limit: int) -> void:
 	quota_timer += value
 
-	emit_signal("quota_timer_increased", value)
+	emit_signal("quota_timer_increased", value, quota_timer >= limit)
 
 func _on_tick() -> void:
 	_current_time += 1
 
-	emit_signal('quota_timer_tick', quota_timer - _current_time)
+	emit_signal('quota_timer_tick', _current_quota_timer - _current_time)
 
 func _on_finish() -> void:
 	_total_timer.stop()
@@ -74,18 +79,18 @@ func _on_finish() -> void:
 func _make_quota() -> Dictionary:
 	var weights: Array[float] = []
 
-	for item in items:
+	for item in loot_items:
 		var value = 1.0 / item.rarity
 		weights.append(value)
 
 	var sum_valuable: float = 0.0
-	for i in items.size():
-		if items[i].in_quota:
+	for i in loot_items.size():
+		if loot_items[i].in_quota:
 			sum_valuable += weights[i]
 
 	var fractional := []
-	for i in items.size():
-		if items[i].in_quota:
+	for i in loot_items.size():
+		if loot_items[i].in_quota:
 			var pi_cond := weights[i] / sum_valuable
 			fractional.append({"i": i, "value": start_quota_items * pi_cond})
 
@@ -94,7 +99,7 @@ func _make_quota() -> Dictionary:
 
 	for e in fractional:
 		var q := int(floor(e["value"]))
-		var item_name = items[e["i"]].name
+		var item_name = loot_items[e["i"]].name
 
 		quota[item_name] = q
 		remain += e["value"] - q
@@ -106,7 +111,7 @@ func _make_quota() -> Dictionary:
 
 	for j in min(need, fractional.size()):
 		var i = fractional[j]["i"]
-		quota[items[i].name] += 1
+		quota[loot_items[i].name] += 1
 
 	var result: Dictionary = {}
 	for k in quota:

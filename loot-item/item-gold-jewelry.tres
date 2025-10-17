@@ -1,0 +1,59 @@
+[gd_resource type="Resource" script_class="LootItem" load_steps=16 format=3 uid="uid://dblcintl450us"]
+
+[ext_resource type="Script" path="res://loot-item/effect-add-score.gd" id="1_bvxue"]
+[ext_resource type="Script" path="res://loot-item/loot-item.gd" id="1_xxu1k"]
+[ext_resource type="Script" path="res://loot-item/effect-add-to-inventory.gd" id="2_34x7i"]
+[ext_resource type="Script" path="res://loot-item/effect-apply-upgrade.gd" id="3_qitf5"]
+[ext_resource type="Script" path="res://loot-item/upgrade-increase-area.gd" id="4_t8cgn"]
+[ext_resource type="Script" path="res://loot-item/upgrade-increase-timer.gd" id="5_63uwq"]
+[ext_resource type="Script" path="res://loot-item/upgrade-increase-loot-speed.gd" id="6_q7kjg"]
+[ext_resource type="Script" path="res://loot-item/upgrade-increase-amount.gd" id="7_xmieg"]
+
+[sub_resource type="Resource" id="Resource_af001"]
+script = ExtResource("1_bvxue")
+score = 500
+
+[sub_resource type="Resource" id="Resource_omhy3"]
+script = ExtResource("2_34x7i")
+
+[sub_resource type="Resource" id="Resource_vprev"]
+script = ExtResource("4_t8cgn")
+min_range = 0.05
+max_range = 0.2
+limit = 6
+step = 0.05
+score = 50
+
+[sub_resource type="Resource" id="Resource_m0umo"]
+script = ExtResource("5_63uwq")
+value = 1
+limit = 50
+score = 50
+
+[sub_resource type="Resource" id="Resource_icg6g"]
+script = ExtResource("6_q7kjg")
+min_range = 0.025
+max_range = 0.05
+limit = 0.2
+step = 0.025
+score = 50
+
+[sub_resource type="Resource" id="Resource_unmvl"]
+script = ExtResource("7_xmieg")
+value = 1
+limit = 7
+score = 50
+
+[sub_resource type="Resource" id="Resource_68ys2"]
+script = ExtResource("3_qitf5")
+chance = 0.05
+upgrades = Array[Resource("res://loot-item/loot-upgrade.gd")]([SubResource("Resource_vprev"), SubResource("Resource_m0umo"), SubResource("Resource_icg6g"), SubResource("Resource_unmvl")])
+
+[resource]
+script = ExtResource("1_xxu1k")
+name = "gold jewelry"
+rarity = 5
+in_quota = true
+is_negative_item = false
+emission = 5.0
+effects = Array[Resource("res://loot-item/loot-effect.gd")]([SubResource("Resource_af001"), SubResource("Resource_omhy3"), SubResource("Resource_68ys2")])

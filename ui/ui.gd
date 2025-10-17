@@ -58,14 +58,16 @@ func update_upgrades(upgrades: Dictionary) -> void:
 		_upgrades.remove_child(child)
 
 	for key in upgrades:
-		var value = upgrades[key]
+		var upgrade = upgrades[key]
 	
 		var label = Label.new()
-		label.text = key + ": " + value
+		label.text = key + ": " + upgrade["str"]
 		label.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
 		
 		if key == "Difficulty":
 			label.label_settings = preload("res://assets/red-label.tres")
+		elif upgrade["maximum"]:
+			label.label_settings = preload("res://assets/green-label.tres")
 		else:
 			label.label_settings = preload("res://assets/label.tres")
 		

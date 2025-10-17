@@ -27,7 +27,7 @@ func _update_upgrades(upgrades: Dictionary) -> void:
 		var value = upgrades[key]
 		
 		var label = Label.new()
-		label.text = key + ": " + value
+		label.text = key + ": " + value["str"]
 		label.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
 		
 		label.label_settings = preload("res://assets/label.tres")

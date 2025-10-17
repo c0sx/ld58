@@ -14,10 +14,11 @@ extends CharacterBody3D
 @onready var _picking_zone: Area3D = $Area3D
 
 signal inventory_changed(value: Dictionary)
-signal item_collected(item: LootItemResource)
-signal picking_area_increased(value: float)
-signal picking_duration_reduced(value: float)
+signal item_collected(item: LootItem)
+signal picking_area_increased(value: float, maximum: bool)
+signal picking_duration_reduced(value: float, maximum: bool)
 signal player_started
+signal score_updated(value: int)
 
 var _gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
@@ -28,30 +29,31 @@ var _inventory: Dictionary = {} # [string, int]
 var _step_timer = 0.0
 var _picking_items: Dictionary = {} # [Lootbox, true]
 var _has_started = false
+var _score = 0;
 
 func _ready() -> void:
 	_step_timer = player_step_interval
-	
+
 	_picking_zone.body_entered.connect(_on_pick_enter)
 	_picking_zone.body_exited.connect(_on_pick_exit)
-	
+
 func _physics_process(delta: float) -> void:
 	var input_dir = Input.get_vector("move_left", "move_right", "move_forward", "move_back")
 	var direction = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 
 	velocity.x = direction.x * player_speed
 	velocity.z = direction.z * player_speed
-	
+
 	if !_has_started && velocity.length() > 0:
 		emit_signal("player_started")
 		_has_started = true
-	
+
 	if velocity.length() > 0.1 and is_on_floor():
 		_step_timer -= delta
 		if _step_timer <= 0.0:
 			_play_step_sound()
 			_step_timer = player_step_interval
-	
+
 	if is_on_floor():
 		if velocity.y > 0.0: velocity.y = 0.0
 		velocity.y = -2.0
@@ -65,53 +67,82 @@ func _unhandled_input(event: InputEvent) -> void:
 		_rotation.y -= event.relative.x * mouse_sensitivity * 0.01
 		_rotation.x -= event.relative.y * mouse_sensitivity * 0.01
 		_rotation.x = clamp(_rotation.x, deg_to_rad(-_vertical_looking_limit), deg_to_rad(_vertical_looking_limit))
-		
+
 		rotation.y = _rotation.y
 		_camera.rotation.x = _rotation.x
-		
+
 	if event.is_action_pressed("interact") and not event.is_echo():
 		_interact()
+
+# interact with button
 
 func set_interactable(interactable: Node3D) -> void:
 	_interactable = interactable
 
-func collect_item(item: LootItemResource) -> void:
+func _interact() -> void:
+	if not _interactable:
+		return
+
+	if _interactable is TubeButton:
+		_interactable.interact()
+
+# looting
+
+func new_item_picked(item: LootItem) -> void:
 	emit_signal("item_collected", item)
 
-func increase_picking_area(value: float) -> void:
-	_picking_zone.scale += Vector3.ONE * value
-	
-	emit_signal("picking_area_increased", value)
-
-func reduce_picking_duration(value: float) -> void:
-	if player_pick_duration - value <= 0.2:
-		return
-	
-	player_pick_duration -= value;
-	
-	emit_signal("picking_duration_reduced", value)
-	
-func add_item_into_inventory(item: LootItemResource) -> void:
+func add_item_into_inventory(item: LootItem) -> void:
 	var value = _inventory.get(item.name, 0)
 	_inventory[item.name] = value + 1
-	
+
 	emit_signal("inventory_changed")
+
+# parameters
+
+func get_score() -> int:
+	return _score
+
+func add_score(value: int) -> void:
+	_score += value
+
+	emit_signal("score_updated", _score)
+
+# upgrades
+
+func get_picking_area() -> Vector3:
+	return _picking_zone.scale
+
+func increase_picking_area(value: float, limit: float) -> void:
+	_picking_zone.scale += Vector3.ONE * value
+
+	emit_signal("picking_area_increased", value, _picking_zone.scale.x >= limit)
+
+func get_picking_duration() -> float:
+	return player_pick_duration
+
+func reduce_picking_duration(value: float, limit: float) -> void:
+	if player_pick_duration - value >= limit:
+		player_pick_duration -= value;
+
+		emit_signal("picking_duration_reduced", value, player_pick_duration <= limit)
+
+# quota
 
 func build_plan(quota: Dictionary) -> Dictionary:
 	var plan = {}
-	
+
 	for k in quota:
 		var value = quota.get(k, 0)
-		
+
 		plan[k] = {
 			"need": value,
 			"have": 0,
 		}
-		
+
 	for k in _inventory:
 		var value = _inventory.get(k, 0)
 		var item = plan.get(k)
-		
+
 		if not item:
 			plan[k] = {
 				"need": 0,
@@ -119,30 +150,25 @@ func build_plan(quota: Dictionary) -> Dictionary:
 			}
 		else:
 			plan[k]["have"] = value
-	
+
 	return plan
-	
+
 func has_engough(item_name: String, need_value: int) -> bool:
 	var have_value = _inventory.get(item_name, 0)
-	
+
 	return have_value >= need_value
 
 func withdraw_items(items: Dictionary) -> void:
 	for k in items:
 		var value = items[k]
 		var current_value = _inventory.get(k, 0)
-		
+
 		if current_value - value < 0:
 			_inventory[k] = 0
 		else:
 			_inventory[k] = current_value - value
 
-func _interact() -> void:
-	if not _interactable:
-		return
-		
-	if _interactable is TubeButton:
-		_interactable.interact()
+# private
 
 func _play_step_sound() -> void:
 	if not _audio_stream_player.is_playing():
@@ -153,7 +179,7 @@ func _on_pick_enter(body) -> void:
 	if body is LootBox and !_picking_items.has(body):
 		_picking_items[body] = true
 		body.pick_start(self)
-	
+
 func _on_pick_exit(body) -> void:
 	if body is LootBox and _picking_items.has(body):
 		body.pick_cancel()

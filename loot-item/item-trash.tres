@@ -1,0 +1,50 @@
+[gd_resource type="Resource" script_class="LootItem" load_steps=12 format=3 uid="uid://ds54m400xxs1i"]
+
+[ext_resource type="Script" path="res://loot-item/loot-item.gd" id="1_1gug7"]
+[ext_resource type="Script" path="res://loot-item/effect-apply-upgrade.gd" id="2_ve854"]
+[ext_resource type="Script" path="res://loot-item/upgrade-increase-area.gd" id="3_0u7m5"]
+[ext_resource type="Script" path="res://loot-item/upgrade-increase-timer.gd" id="3_o6atp"]
+[ext_resource type="Script" path="res://loot-item/upgrade-increase-loot-speed.gd" id="4_2et3m"]
+[ext_resource type="Script" path="res://loot-item/upgrade-increase-amount.gd" id="5_80pkg"]
+
+[sub_resource type="Resource" id="Resource_ki0fb"]
+script = ExtResource("3_0u7m5")
+min_range = 0.05
+max_range = 0.2
+limit = 6
+step = 0.05
+score = 50
+
+[sub_resource type="Resource" id="Resource_q5ujh"]
+script = ExtResource("3_o6atp")
+value = 1
+limit = 50
+score = 50
+
+[sub_resource type="Resource" id="Resource_w8oe7"]
+script = ExtResource("4_2et3m")
+min_range = 0.025
+max_range = 0.05
+limit = 0.2
+step = 0.025
+score = 50
+
+[sub_resource type="Resource" id="Resource_ylwp3"]
+script = ExtResource("5_80pkg")
+value = 1
+limit = 7
+score = 50
+
+[sub_resource type="Resource" id="Resource_npujl"]
+script = ExtResource("2_ve854")
+chance = 0.05
+upgrades = Array[Resource("res://loot-item/loot-upgrade.gd")]([SubResource("Resource_ki0fb"), SubResource("Resource_q5ujh"), SubResource("Resource_w8oe7"), SubResource("Resource_ylwp3")])
+
+[resource]
+script = ExtResource("1_1gug7")
+name = "trash"
+rarity = 2
+in_quota = false
+is_negative_item = true
+emission = 1.0
+effects = Array[Resource("res://loot-item/loot-effect.gd")]([SubResource("Resource_npujl")])
