@@ -21,6 +21,7 @@ var _items_history: Dictionary = {}
 func _ready() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	Engine.max_fps = 60
+	randomize()
 
 	_working_zone.enter_working_zone.connect(_on_enter_working_zone)
 	_working_zone.exit_working_zone.connect(_on_exit_working_zone)

@@ -12,14 +12,6 @@ extends Node3D
 @onready var _mesh: MeshInstance3D = $MeshInstance3D
 @onready var _audio_stream_player: AudioStreamPlayer3D = $AudioStreamPlayer3D
 
-var _sounds = [
-	load('res://assets/sounds/pickup0.wav'),
-	load('res://assets/sounds/pickup1.wav'),
-	load('res://assets/sounds/pickup2.wav'),
-	load('res://assets/sounds/pickup3.wav'),
-	load('res://assets/sounds/pickup4.wav')
-]
-
 var _loot_item: LootItem
 
 var _is_picking = false
@@ -29,7 +21,7 @@ var _pick_duration: float = 1.5
 
 func _ready() -> void:
 	_loot_item = _spawn()
-	
+
 	var active_material = _mesh.get_active_material(0)
 	if active_material is StandardMaterial3D:
 		var new_material: StandardMaterial3D = active_material.duplicate(true)
@@ -74,7 +66,7 @@ func _pick_complete() -> void:
 	if _player:
 		_player.new_item_picked(_loot_item)
 
-		_play_pick_complete()
+		await _play_pick_complete()
 		await get_tree().create_timer(0.1).timeout
 
 	get_parent().remove_child(self)
@@ -83,7 +75,7 @@ func _play_pick_complete() -> void:
 	var sounds = successful_sounds
 	if _loot_item.is_negative_item:
 		sounds = negative_sounds
-		
+
 	if len(sounds) == 0:
 		return
 
@@ -93,6 +85,12 @@ func _play_pick_complete() -> void:
 
 	if not _audio_stream_player.is_playing():
 		_audio_stream_player.stream = stream
+
+		var pitch_variation = randf_range(-0.1, 0.1)
+		_audio_stream_player.pitch_scale = 1.0 + pitch_variation
+
+		var delay = randf_range(0.0, 0.1)
+		await get_tree().create_timer(delay).timeout
 		_audio_stream_player.play()
 
 func _select_color() -> Color:
@@ -104,22 +102,22 @@ func _select_color() -> Color:
 
 func _spawn() -> LootItem:
 	var weights = []
-	
+
 	for item in loot_items:
 		var weight = 1.0 / (item.rarity + 1)
 		weights.append(weight)
-		
+
 	var total = weights.reduce(func(a, b):
 		return a + b
 	)
-	
+
 	var r = randf_range(0.0, total)
 	var acc := 0.0
-	
+
 	for i in loot_items.size():
 		acc += weights[i]
-		
+
 		if r <= acc:
 			return loot_items[i]
-	
+
 	return loot_items.back()
