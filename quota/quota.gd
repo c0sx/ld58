@@ -4,13 +4,14 @@ extends Node3D
 @export var quota_timer: float = 10.0
 @export var loot_items: Array[LootItem] = []
 @export var start_quota_items = 3
+@export var total_rounds: int = 10
+@export var current_round: int = 0
 
 @onready var _timer: Timer = $Timer
 @onready var _total_timer: Timer = $QuotaTimer
 
 var _current_time: float = 0.0
 var _current_quota: Dictionary
-var _round: int = 0
 var _difficulty: int = 0
 var _current_quota_timer = 0.0
 
@@ -18,6 +19,7 @@ signal quota_started(quota: Dictionary, time: float)
 signal quota_timer_tick
 signal quota_finished
 signal quota_timer_increased(value: int, maximum: bool)
+signal win
 
 func _ready() -> void:
 	_timer.timeout.connect(_on_tick)
@@ -27,10 +29,14 @@ func start() -> void:
 	_total_timer.wait_time = quota_timer
 	_current_quota_timer = quota_timer
 
-	_round += 1
+	if current_round + 1 > total_rounds:
+		emit_signal("win")
+		return
+
+	current_round += 1
 	_current_time = 0.0
 
-	if _round > 1 and (_round - 1) % 3 == 0:
+	if current_round > 1 and (current_round - 1) % 3 == 0:
 		_difficulty += 3
 		start_quota_items += _difficulty
 
@@ -39,7 +45,7 @@ func start() -> void:
 	_timer.start()
 	_total_timer.start()
 
-	emit_signal('quota_started', _current_quota, quota_timer, _difficulty)
+	emit_signal('quota_started', _current_quota, quota_timer, current_round)
 
 func get_current_quota() -> Dictionary:
 	return _current_quota
@@ -52,7 +58,7 @@ func check_quota(player: Player) -> bool:
 			return false
 
 	return true
-	
+
 func get_quota_timer() -> float:
 	return quota_timer
 

@@ -11,6 +11,7 @@ extends Node3D
 @onready var _pause_screen: Control = $PauseScreen
 @onready var _game_over_screen: Control = $GameOverScreen
 @onready var _audio_stream_player: AudioStreamPlayer = $AudioStreamPlayer
+@onready var _win_screen: WinScreen = $WinScreen
 
 var _first_interacted = false
 var _is_quota_started = false
@@ -45,7 +46,8 @@ func _ready() -> void:
 	_quota.quota_timer_tick.connect(_on_quota_timer_tick)
 	_quota.quota_finished.connect(_on_quota_finished)
 	_quota.quota_timer_increased.connect(_on_quota_timer_increased)
-
+	_quota.win.connect(_on_win)
+	
 	_pause_controller.game_paused.connect(_on_game_paused)
 	_pause_controller.game_resumed.connect(_on_game_resumed)
 
@@ -54,6 +56,7 @@ func _ready() -> void:
 
 	_ui.welcome_message()
 	_ui.update_quota_timer(_quota.quota_timer)
+	_ui.update_quota(_quota.current_round, _quota.total_rounds)
 
 func _input(event) -> void:
 	if event is InputEventMouseButton:
@@ -110,21 +113,13 @@ func _on_inventory_changed() -> void:
 func _on_quota_timer_tick(remaining: float) -> void:
 	_ui.update_quota_timer(remaining)
 
-func _on_quota_started(quota: Dictionary, timer: float, difficulty: int) -> void:
+func _on_quota_started(quota: Dictionary, timer: float, current_round: int) -> void:
 	_is_quota_started = true
 
 	var plan = _player.build_plan(quota)
 	_ui.update_quota_plan(plan)
 	_ui.update_quota_timer(timer)
-
-	if difficulty > 0:
-		_upgrades["Difficulty"] = {
-			"value": difficulty,
-			"str": "+" + str(difficulty),
-			"limit": 18
-		}
-
-		_ui.update_upgrades(_upgrades)
+	_ui.update_quota(current_round, _quota.total_rounds)
 
 func _on_quota_finished() -> void:
 	_is_quota_started = false
@@ -144,16 +139,25 @@ func _game_over() -> void:
 	_game_over_screen.update_score(score, _upgrades, _items_history)
 	_game_over_screen.visible = true
 
+func _on_win() -> void:
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	get_tree().paused = true
+	
+	var score = _player.get_score()
+	_win_screen.render(score, _upgrades, _items_history)
+
 func _on_game_paused() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	get_tree().paused = true
 	_pause_screen.visible = true
+	pass
 
 func _on_game_resumed() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	get_tree().paused = false
 	_pause_screen.visible = false
-
+	pass
+	
 func _on_quota_timer_increased(value: int, maximum) -> void:
 	var current = _upgrades.get("Timer", {"value": 0})
 
@@ -180,7 +184,7 @@ func _on_picking_duration_reduced(value: float, maximum: bool) -> void:
 	var current = _upgrades.get("Loot speed", {"value": 0.0})
 	_upgrades["Loot speed"] = {
 		"value": float(current["value"]) + value,
-		"str": "+" + str(float(current["value"]) + value),
+		"str": "-" + str(float(current["value"]) + value),
 		"maximum": maximum
 	}
 

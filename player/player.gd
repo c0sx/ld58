@@ -121,10 +121,9 @@ func get_picking_duration() -> float:
 	return player_pick_duration
 
 func reduce_picking_duration(value: float, limit: float) -> void:
-	if player_pick_duration - value >= limit:
-		player_pick_duration -= value;
+	player_pick_duration -= value;
 
-		emit_signal("picking_duration_reduced", value, player_pick_duration <= limit)
+	emit_signal("picking_duration_reduced", value, player_pick_duration <= limit)
 
 # quota
 

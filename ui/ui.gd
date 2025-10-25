@@ -3,10 +3,11 @@ extends Control
 
 @onready var _message: Panel = $MessagePanel
 @onready var _label: Label = $MessagePanel/Label
-@onready var _timer: Label = $TimeLeft
-@onready var _inventory: VBoxContainer = $Inventory
-@onready var _score: Label = $Score
-@onready var _upgrades: VBoxContainer = $Upgrades
+@onready var _timer: Label = $MarginContainer/HBoxContainer/Right/TimeLeft
+@onready var _inventory: VBoxContainer = $MarginContainer/HBoxContainer/Right/Inventory
+@onready var _score: Label = $MarginContainer/HBoxContainer/Left/Score
+@onready var _upgrades: VBoxContainer = $MarginContainer/HBoxContainer/Left/Upgrades
+@onready var _quota: Label = $MarginContainer/HBoxContainer/Right/Quota
 
 func _ready() -> void:
 	_message.visible = false
@@ -47,6 +48,9 @@ func update_quota_plan(quota_plan: Dictionary) -> void:
 		
 		_inventory.add_child(label)
 	
+func update_quota(current: int, total: int) -> void:
+	_quota.text = "Quota: " + str(current) + "/" + str(total)
+
 func update_quota_timer(value: float) -> void:
 	_timer.text = "Time Left: " + str(int(value))
 

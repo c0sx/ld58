@@ -1,6 +1,6 @@
-[gd_scene load_steps=29 format=3 uid="uid://cgwgn3d0bsk5b"]
+[gd_scene load_steps=31 format=3 uid="uid://cgwgn3d0bsk5b"]
 
-[ext_resource type="Script" path="res://scenes/main-scene.gd" id="1_bir4h"]
+[ext_resource type="Script" uid="uid://cap4o38avfyh" path="res://scenes/main-scene.gd" id="1_bir4h"]
 [ext_resource type="PackedScene" uid="uid://b7kqgb07sf7gj" path="res://work-zone/work-zone.tscn" id="1_k2p32"]
 [ext_resource type="PackedScene" uid="uid://b6cobyf05kb1" path="res://player/player.tscn" id="1_ms8d2"]
 [ext_resource type="Material" uid="uid://2sb2ianglr5b" path="res://assets/materials/standard-material.tres" id="2_aap56"]
@@ -12,10 +12,12 @@
 [ext_resource type="PackedScene" uid="uid://bfjd0cwaleh0b" path="res://ui/ui.tscn" id="6_0dwyr"]
 [ext_resource type="PackedScene" uid="uid://dsve5jxi3op64" path="res://quota/quota.tscn" id="7_mm867"]
 [ext_resource type="Resource" uid="uid://3sdsic4taway" path="res://loot-item/item-ball.tres" id="10_f7wrf"]
+[ext_resource type="Script" uid="uid://c3kso7oje5wqv" path="res://loot-item/loot-item.gd" id="10_muem4"]
 [ext_resource type="PackedScene" uid="uid://ckhaeb7af0hr" path="res://game-over-screen/game-over-screen.tscn" id="11_pthsh"]
 [ext_resource type="Resource" uid="uid://dblcintl450us" path="res://loot-item/item-gold-jewelry.tres" id="11_slfad"]
 [ext_resource type="Resource" uid="uid://ck35dlroa1v7c" path="res://loot-item/item-old-toy.tres" id="12_agy6m"]
 [ext_resource type="PackedScene" uid="uid://bleya7mqfp6v6" path="res://pause-screen/pause-screen.tscn" id="12_p2wha"]
+[ext_resource type="PackedScene" uid="uid://dun6r1hw6mrb1" path="res://win-screen/win-screen.tscn" id="18_dp3eg"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_tcvn7"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -142,7 +144,8 @@ transform = Transform3D(-0.223795, 0, -0.974636, 0, 1, 0, 0.974636, 0, -0.223795
 
 [node name="Quota" parent="." instance=ExtResource("7_mm867")]
 quota_timer = 30.0
-loot_items = Array[Resource("res://loot-item/loot-item.gd")]([ExtResource("10_f7wrf"), ExtResource("11_slfad"), ExtResource("12_agy6m")])
+loot_items = Array[ExtResource("10_muem4")]([ExtResource("10_f7wrf"), ExtResource("11_slfad"), ExtResource("12_agy6m")])
+total_rounds = 10
 
 [node name="UI" parent="." instance=ExtResource("6_0dwyr")]
 mouse_filter = 1
@@ -157,5 +160,7 @@ visible = false
 [node name="GameOverScreen" parent="." instance=ExtResource("11_pthsh")]
 process_mode = 2
 visible = false
+
+[node name="WinScreen" parent="." instance=ExtResource("18_dp3eg")]
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]

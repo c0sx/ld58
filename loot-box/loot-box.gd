@@ -66,7 +66,7 @@ func _pick_complete() -> void:
 	if _player:
 		_player.new_item_picked(_loot_item)
 
-		await _play_pick_complete()
+		_play_pick_complete()
 		await get_tree().create_timer(0.1).timeout
 
 	get_parent().remove_child(self)
@@ -82,16 +82,11 @@ func _play_pick_complete() -> void:
 	var stream = sounds.pick_random()
 	if not stream:
 		return
-
-	if not _audio_stream_player.is_playing():
-		_audio_stream_player.stream = stream
-
-		var pitch_variation = randf_range(-0.05, 0.05)
-		_audio_stream_player.pitch_scale = 1.0 + pitch_variation
-
-		var delay = randf_range(0.0, 0.1)
-		await get_tree().create_timer(delay).timeout
-		_audio_stream_player.play()
+		
+	var pitch_variation = randf_range(-0.05, 0.05)
+	var pitch_scale = 1.0 + pitch_variation
+	
+	SoundPool.play(_audio_stream_player, stream, pitch_scale)
 
 func _select_color() -> Color:
 	var c = colors.pick_random()

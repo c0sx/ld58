@@ -1,6 +1,6 @@
 [gd_scene load_steps=9 format=3 uid="uid://ckhaeb7af0hr"]
 
-[ext_resource type="Script" path="res://game-over-screen/game-over-screen.gd" id="1_qsec1"]
+[ext_resource type="Script" uid="uid://cy3h073cjvppo" path="res://game-over-screen/game-over-screen.gd" id="1_qsec1"]
 [ext_resource type="LabelSettings" uid="uid://tst8itchmjq" path="res://assets/label.tres" id="2_b2mix"]
 [ext_resource type="FontFile" uid="uid://bmokuc7oo7370" path="res://assets/medodica/MedodicaRegular.otf" id="3_c6pqt"]
 
@@ -24,11 +24,11 @@ corner_radius_bottom_left = 10
 corner_detail = 2
 anti_aliasing = false
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_y67lq"]
-content_margin_left = 10.0
-content_margin_top = 10.0
-content_margin_right = 10.0
-content_margin_bottom = 10.0
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jvg1q"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
 bg_color = Color(0.0862745, 0.0862745, 0.0862745, 1)
 border_width_left = 5
 border_width_top = 5
@@ -41,11 +41,11 @@ corner_radius_bottom_left = 10
 corner_detail = 2
 anti_aliasing = false
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jvg1q"]
-content_margin_left = 0.0
-content_margin_top = 0.0
-content_margin_right = 0.0
-content_margin_bottom = 0.0
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_y67lq"]
+content_margin_left = 10.0
+content_margin_top = 10.0
+content_margin_right = 10.0
+content_margin_bottom = 10.0
 bg_color = Color(0.0862745, 0.0862745, 0.0862745, 1)
 border_width_left = 5
 border_width_top = 5
@@ -146,8 +146,8 @@ grow_vertical = 2
 theme_override_fonts/font = ExtResource("3_c6pqt")
 theme_override_font_sizes/font_size = 64
 theme_override_styles/normal = SubResource("StyleBoxFlat_6deev")
-theme_override_styles/hover = SubResource("StyleBoxFlat_y67lq")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_jvg1q")
+theme_override_styles/hover = SubResource("StyleBoxFlat_y67lq")
 theme_override_styles/focus = SubResource("StyleBoxFlat_scor5")
 text = "Restart"
 
