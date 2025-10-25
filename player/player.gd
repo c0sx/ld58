@@ -115,7 +115,10 @@ func get_picking_area() -> Vector3:
 func increase_picking_area(value: float, limit: float) -> void:
 	_picking_zone.scale += Vector3.ONE * value
 
-	emit_signal("picking_area_increased", value, _picking_zone.scale.x >= limit)
+	var diff = limit - _picking_zone.scale.x
+	var completed = diff < 0.01
+
+	emit_signal("picking_area_increased", value, completed)
 
 func get_picking_duration() -> float:
 	return player_pick_duration
@@ -152,7 +155,7 @@ func build_plan(quota: Dictionary) -> Dictionary:
 
 	return plan
 
-func has_engough(item_name: String, need_value: int) -> bool:
+func has_enough(item_name: String, need_value: int) -> bool:
 	var have_value = _inventory.get(item_name, 0)
 
 	return have_value >= need_value

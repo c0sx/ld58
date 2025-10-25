@@ -2,7 +2,7 @@ class_name IncreaseMaxAmountLootUpgrade
 extends LootUpgrade
 
 @export var value = 1
-@export var limit = 7
+@export var limit = 5
 @export var score = 50
 
 func apply(_item: LootItem, player: Player, _quota: Quota, tube: Tube) -> void:

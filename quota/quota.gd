@@ -3,16 +3,18 @@ extends Node3D
 
 @export var quota_timer: float = 10.0
 @export var loot_items: Array[LootItem] = []
-@export var start_quota_items = 3
+@export var current_quota_items = 3
+@export var quota_items_increase_per_round: int = 2
 @export var total_rounds: int = 10
 @export var current_round: int = 0
+@export var difficulty: int = 0
+@export var rounds_before_difficulty_increase: int = 2
 
 @onready var _timer: Timer = $Timer
 @onready var _total_timer: Timer = $QuotaTimer
 
 var _current_time: float = 0.0
 var _current_quota: Dictionary
-var _difficulty: int = 0
 var _current_quota_timer = 0.0
 
 signal quota_started(quota: Dictionary, time: float)
@@ -35,10 +37,11 @@ func start() -> void:
 
 	current_round += 1
 	_current_time = 0.0
+	current_quota_items += randi_range(quota_items_increase_per_round - 1, quota_items_increase_per_round + 1)
 
-	if current_round > 1 and (current_round - 1) % 3 == 0:
-		_difficulty += 3
-		start_quota_items += _difficulty
+	if current_round > 1 and (current_round - 1) % rounds_before_difficulty_increase == 0:
+		difficulty = int(round((difficulty + 3) * 0.85))
+		current_quota_items += current_round + difficulty
 
 	_current_quota = _make_quota()
 
@@ -54,7 +57,7 @@ func check_quota(player: Player) -> bool:
 	for k in _current_quota:
 		var value = _current_quota[k]
 
-		if not player.has_engough(k, value):
+		if not player.has_enough(k, value):
 			return false
 
 	return true
@@ -77,9 +80,6 @@ func _on_finish() -> void:
 	_timer.stop()
 	_current_time = 0.0
 
-	var amount = randi_range(1, 2)
-	start_quota_items += amount
-
 	emit_signal('quota_finished')
 
 func _make_quota() -> Dictionary:
@@ -98,7 +98,7 @@ func _make_quota() -> Dictionary:
 	for i in loot_items.size():
 		if loot_items[i].in_quota:
 			var pi_cond := weights[i] / sum_valuable
-			fractional.append({"i": i, "value": start_quota_items * pi_cond})
+			fractional.append({"i": i, "value": current_quota_items * pi_cond})
 
 	var quota: Dictionary = {}
 	var remain: float = 0.0

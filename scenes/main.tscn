@@ -145,7 +145,7 @@ transform = Transform3D(-0.223795, 0, -0.974636, 0, 1, 0, 0.974636, 0, -0.223795
 [node name="Quota" parent="." instance=ExtResource("7_mm867")]
 quota_timer = 30.0
 loot_items = Array[ExtResource("10_muem4")]([ExtResource("10_f7wrf"), ExtResource("11_slfad"), ExtResource("12_agy6m")])
-total_rounds = 10
+total_rounds = 15
 
 [node name="UI" parent="." instance=ExtResource("6_0dwyr")]
 mouse_filter = 1
@@ -162,5 +162,6 @@ process_mode = 2
 visible = false
 
 [node name="WinScreen" parent="." instance=ExtResource("18_dp3eg")]
+visible = false
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]

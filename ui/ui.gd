@@ -23,7 +23,7 @@ func welcome_message() -> void:
 func render_interact_message() -> void:
 	_label.text = "Press 'E'"
 	_message.visible = true
-	
+
 func hide_message() -> void:
 	_message.visible = false
 	_label.text = ""
@@ -31,25 +31,31 @@ func hide_message() -> void:
 func update_quota_plan(quota_plan: Dictionary) -> void:
 	for child in _inventory.get_children():
 		_inventory.remove_child(child)
-		
+
 	for k in quota_plan:
 		var item = quota_plan[k]
 		var need = item["need"]
 		var have = item["have"]
-		
+
 		var label = Label.new()
 		label.text = k + ": " + str(have) + "/" + str(need)
 		label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
-		
+
 		if need > 0 and have >= need:
 			label.label_settings = preload("res://assets/green-label.tres")
 		else:
 			label.label_settings = preload("res://assets/label.tres")
-		
+
 		_inventory.add_child(label)
-	
+
 func update_quota(current: int, total: int) -> void:
 	_quota.text = "Quota: " + str(current) + "/" + str(total)
+
+func render_quota_completed_message(message: String) -> void:
+	_label.text = message
+	_message.visible = true
+	await get_tree().create_timer(2.5).timeout
+	_message.visible = false
 
 func update_quota_timer(value: float) -> void:
 	_timer.text = "Time Left: " + str(int(value))
@@ -63,16 +69,16 @@ func update_upgrades(upgrades: Dictionary) -> void:
 
 	for key in upgrades:
 		var upgrade = upgrades[key]
-	
+
 		var label = Label.new()
 		label.text = key + ": " + upgrade["str"]
 		label.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
-		
+
 		if key == "Difficulty":
 			label.label_settings = preload("res://assets/red-label.tres")
 		elif upgrade["maximum"]:
 			label.label_settings = preload("res://assets/green-label.tres")
 		else:
 			label.label_settings = preload("res://assets/label.tres")
-		
+
 		_upgrades.add_child(label)

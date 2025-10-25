@@ -1,7 +1,7 @@
 class_name WinScreen
 extends Control
 
-@onready var _score: Label = $Panel/MarginContainer/HBoxContainer/Center/Score
+@onready var _score: Label = $Panel/MarginContainer/HBoxContainer/Center/VBoxContainer/Score
 @onready var _upgrades: VBoxContainer = $Panel/MarginContainer/HBoxContainer/Left/CenterContainer/Upgrades
 @onready var _items: VBoxContainer = $Panel/MarginContainer/HBoxContainer/Right/CenterContainer/Items
 @onready var _restart_button: Button = $Panel/MarginContainer/HBoxContainer/Center/CenterContainer/RestartButton

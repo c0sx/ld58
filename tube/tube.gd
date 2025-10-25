@@ -6,6 +6,7 @@ extends Node3D
 @export var spawn_amount_max: int = 2
 @export var spawn_timer_min = 0.05
 @export var spawn_timer_max = 0.2
+@export var additional_amount: int = 0
 
 @export var box_scene: PackedScene
 
@@ -14,13 +15,14 @@ extends Node3D
 signal tube_amount_increased(value: int, maximum: bool)
 
 func spawn() -> void:
-	var amount = randf_range(spawn_amount_min - 1, spawn_amount_max)
+	var amount = randf_range(spawn_amount_min - 1, spawn_amount_max) + additional_amount
 
 	for i in amount:
 		var box = box_scene.instantiate()
 
 		box.top_level = true
 		box.position = _calc_spawn_position()
+		box.rotation = _calc_rotation()
 
 		add_child(box)
 		var timeout = _get_spawn_timeout()
@@ -30,10 +32,10 @@ func get_amount_value() -> int:
 	return spawn_amount_max
 
 func increase_max_amount(value: int, limit: int) -> void:
-	if spawn_amount_max + value <= limit:
-		spawn_amount_max += value
+	if additional_amount + value <= limit:
+		additional_amount += value
 
-		emit_signal("tube_amount_increased", value, spawn_amount_max >= limit)
+		emit_signal("tube_amount_increased", value, additional_amount >= limit)
 
 func _calc_spawn_position() -> Vector3:
 	var x = randf_range(_spawner.position.x - spawn_radius, _spawner.position.x + spawn_radius)
@@ -43,3 +45,10 @@ func _calc_spawn_position() -> Vector3:
 
 func _get_spawn_timeout() -> float:
 	return randf_range(spawn_timer_min, spawn_timer_max)
+
+func _calc_rotation() -> Vector3:
+	return Vector3(
+			randf_range(0, TAU),
+			randf_range(0, TAU),
+			randf_range(0, TAU)
+	)

@@ -1,10 +1,10 @@
 class_name GameOverScreen
 extends Control
 
-@onready var _restart_button: Button = $RestartButton
-@onready var _score: Label = $Score
-@onready var _upgrades: VBoxContainer = $Upgrades
-@onready var _items: VBoxContainer = $Items
+@onready var _restart_button: Button = $Panel/MarginContainer/HBoxContainer/Center/CenterContainer/RestartButton
+@onready var _score: Label = $Panel/MarginContainer/HBoxContainer/Center/VBoxContainer/Score
+@onready var _upgrades: VBoxContainer = $Panel/MarginContainer/HBoxContainer/Left/CenterContainer/Upgrades
+@onready var _items: VBoxContainer = $Panel/MarginContainer/HBoxContainer/Right/CenterContainer/Items
 
 func _ready() -> void:
 	_restart_button.pressed.connect(_on_clicked)

@@ -14,10 +14,22 @@ extends Node3D
 @onready var _win_screen: WinScreen = $WinScreen
 
 var _first_interacted = false
-var _is_quota_started = false
+var _is_game_started = false
 
 var _upgrades: Dictionary = {}
 var _items_history: Dictionary = {}
+var _finished_quota_messages = [
+	"I can do it all day!",
+	"Perfect again. Of course it is!",
+	"I'm on a roll!",
+	"Efficiency is my middle name.",
+	"Another quota completed!",
+	"One step closer to perfection.",
+	"Work smarter, not harder!",
+	"Productivity at its finest.",
+	"Just another day of excellence."
+]
+var _used_quota_messages: Array = []
 
 func _ready() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
@@ -47,7 +59,7 @@ func _ready() -> void:
 	_quota.quota_finished.connect(_on_quota_finished)
 	_quota.quota_timer_increased.connect(_on_quota_timer_increased)
 	_quota.win.connect(_on_win)
-	
+
 	_pause_controller.game_paused.connect(_on_game_paused)
 	_pause_controller.game_resumed.connect(_on_game_resumed)
 
@@ -72,6 +84,9 @@ func _on_exit_working_zone(timeout: float) -> void:
 	_ui.render_return_to_the_working_zone_message(timeout)
 
 func _on_exit_working_zone_tick(remaining: float) -> void:
+	if _audio_stream_player.playing:
+		return
+
 	_audio_stream_player.stream = load("res://assets/sounds/blip.wav")
 	_audio_stream_player.play()
 
@@ -88,8 +103,9 @@ func _on_exit_button_area() -> void:
 	_ui.hide_message()
 
 func _on_button_pressed() -> void:
-	if not _is_quota_started:
+	if not _is_game_started:
 		_quota.start()
+		_is_game_started = true
 
 	if not _first_interacted:
 		_first_interacted = true
@@ -114,22 +130,37 @@ func _on_quota_timer_tick(remaining: float) -> void:
 	_ui.update_quota_timer(remaining)
 
 func _on_quota_started(quota: Dictionary, timer: float, current_round: int) -> void:
-	_is_quota_started = true
-
 	var plan = _player.build_plan(quota)
 	_ui.update_quota_plan(plan)
 	_ui.update_quota_timer(timer)
 	_ui.update_quota(current_round, _quota.total_rounds)
 
 func _on_quota_finished() -> void:
-	_is_quota_started = false
-
 	var result = _quota.check_quota(_player)
 	if not result:
 		_game_over()
 	else:
 		_player.withdraw_items(_quota.get_current_quota())
+
+		_render_quota_completed_message()
+
 		_quota.start()
+
+func _render_quota_completed_message() -> void:
+	if _finished_quota_messages.size() == 0:
+		_finished_quota_messages = _used_quota_messages.duplicate()
+		_used_quota_messages.clear()
+
+	var message = _finished_quota_messages.pick_random()
+	_finished_quota_messages.erase(message)
+	_used_quota_messages.append(message)
+
+	if _audio_stream_player.playing:
+		_audio_stream_player.stop()
+
+	_audio_stream_player.stream = load("res://scenes/quota-finished.wav")
+	_audio_stream_player.play()
+	_ui.render_quota_completed_message(message)
 
 func _game_over() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
@@ -142,7 +173,7 @@ func _game_over() -> void:
 func _on_win() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	get_tree().paused = true
-	
+
 	var score = _player.get_score()
 	_win_screen.render(score, _upgrades, _items_history)
 
@@ -157,7 +188,7 @@ func _on_game_resumed() -> void:
 	get_tree().paused = false
 	_pause_screen.visible = false
 	pass
-	
+
 func _on_quota_timer_increased(value: int, maximum) -> void:
 	var current = _upgrades.get("Timer", {"value": 0})
 
@@ -181,8 +212,8 @@ func _on_picking_area_increased(value: float, maximum: bool) -> void:
 	_ui.update_upgrades(_upgrades)
 
 func _on_picking_duration_reduced(value: float, maximum: bool) -> void:
-	var current = _upgrades.get("Loot speed", {"value": 0.0})
-	_upgrades["Loot speed"] = {
+	var current = _upgrades.get("Loot time", {"value": 0.0})
+	_upgrades["Loot time"] = {
 		"value": float(current["value"]) + value,
 		"str": "-" + str(float(current["value"]) + value),
 		"maximum": maximum
