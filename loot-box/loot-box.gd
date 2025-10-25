@@ -86,7 +86,7 @@ func _play_pick_complete() -> void:
 	if not _audio_stream_player.is_playing():
 		_audio_stream_player.stream = stream
 
-		var pitch_variation = randf_range(-0.1, 0.1)
+		var pitch_variation = randf_range(-0.05, 0.05)
 		_audio_stream_player.pitch_scale = 1.0 + pitch_variation
 
 		var delay = randf_range(0.0, 0.1)
