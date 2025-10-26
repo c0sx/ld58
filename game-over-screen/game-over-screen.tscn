@@ -1,6 +1,6 @@
 [gd_scene load_steps=9 format=3 uid="uid://ckhaeb7af0hr"]
 
-[ext_resource type="Script" path="res://game-over-screen/game-over-screen.gd" id="1_qsec1"]
+[ext_resource type="Script" uid="uid://cy3h073cjvppo" path="res://game-over-screen/game-over-screen.gd" id="1_qsec1"]
 [ext_resource type="LabelSettings" uid="uid://tst8itchmjq" path="res://assets/label.tres" id="2_b2mix"]
 [ext_resource type="FontFile" uid="uid://bmokuc7oo7370" path="res://assets/medodica/MedodicaRegular.otf" id="3_c6pqt"]
 
@@ -24,11 +24,11 @@ corner_radius_bottom_left = 10
 corner_detail = 2
 anti_aliasing = false
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_y67lq"]
-content_margin_left = 10.0
-content_margin_top = 10.0
-content_margin_right = 10.0
-content_margin_bottom = 10.0
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jvg1q"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
 bg_color = Color(0.0862745, 0.0862745, 0.0862745, 1)
 border_width_left = 5
 border_width_top = 5
@@ -41,11 +41,11 @@ corner_radius_bottom_left = 10
 corner_detail = 2
 anti_aliasing = false
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jvg1q"]
-content_margin_left = 0.0
-content_margin_top = 0.0
-content_margin_right = 0.0
-content_margin_bottom = 0.0
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_y67lq"]
+content_margin_left = 10.0
+content_margin_top = 10.0
+content_margin_right = 10.0
+content_margin_bottom = 10.0
 bg_color = Color(0.0862745, 0.0862745, 0.0862745, 1)
 border_width_left = 5
 border_width_top = 5
@@ -93,60 +93,109 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_x6tyg")
 
-[node name="Score" type="Label" parent="."]
+[node name="MarginContainer" type="MarginContainer" parent="Panel"]
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -138.0
-offset_top = 54.0
-offset_right = 138.0
-offset_bottom = 118.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel/MarginContainer"]
+layout_mode = 2
+
+[node name="Left" type="VBoxContainer" parent="Panel/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="CenterContainer" type="CenterContainer" parent="Panel/MarginContainer/HBoxContainer/Left"]
+layout_mode = 2
+
+[node name="Upgrades" type="VBoxContainer" parent="Panel/MarginContainer/HBoxContainer/Left/CenterContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="Label" type="Label" parent="Panel/MarginContainer/HBoxContainer/Left/CenterContainer/Upgrades"]
+layout_mode = 2
+text = "Test1"
+label_settings = ExtResource("2_b2mix")
+
+[node name="Label2" type="Label" parent="Panel/MarginContainer/HBoxContainer/Left/CenterContainer/Upgrades"]
+layout_mode = 2
+text = "Test1"
+label_settings = ExtResource("2_b2mix")
+
+[node name="Label3" type="Label" parent="Panel/MarginContainer/HBoxContainer/Left/CenterContainer/Upgrades"]
+layout_mode = 2
+text = "Test1"
+label_settings = ExtResource("2_b2mix")
+
+[node name="Center" type="VBoxContainer" parent="Panel/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 50
+alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel/MarginContainer/HBoxContainer/Center"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Panel/MarginContainer/HBoxContainer/Center/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 64
+text = "You're fired!"
+label_settings = ExtResource("2_b2mix")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Score" type="Label" parent="Panel/MarginContainer/HBoxContainer/Center/VBoxContainer"]
+layout_mode = 2
 text = "Score: 0"
 label_settings = ExtResource("2_b2mix")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Label" type="Label" parent="."]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -173.5
-offset_top = -44.0
-offset_right = 173.5
-offset_bottom = 44.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_font_sizes/font_size = 64
-text = "Game Over"
-label_settings = ExtResource("2_b2mix")
-horizontal_alignment = 1
-vertical_alignment = 1
+[node name="CenterContainer" type="CenterContainer" parent="Panel/MarginContainer/HBoxContainer/Center"]
+layout_mode = 2
 
-[node name="RestartButton" type="Button" parent="."]
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -92.0
-offset_top = -377.0
-offset_right = 92.0
-offset_bottom = -300.0
-grow_horizontal = 2
-grow_vertical = 0
+[node name="RestartButton" type="Button" parent="Panel/MarginContainer/HBoxContainer/Center/CenterContainer"]
+layout_mode = 2
 theme_override_fonts/font = ExtResource("3_c6pqt")
 theme_override_font_sizes/font_size = 64
 theme_override_styles/normal = SubResource("StyleBoxFlat_6deev")
-theme_override_styles/hover = SubResource("StyleBoxFlat_y67lq")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_jvg1q")
+theme_override_styles/hover = SubResource("StyleBoxFlat_y67lq")
 theme_override_styles/focus = SubResource("StyleBoxFlat_scor5")
 text = "Restart"
+
+[node name="Right" type="VBoxContainer" parent="Panel/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="CenterContainer" type="CenterContainer" parent="Panel/MarginContainer/HBoxContainer/Right"]
+layout_mode = 2
+
+[node name="Items" type="VBoxContainer" parent="Panel/MarginContainer/HBoxContainer/Right/CenterContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Label" type="Label" parent="Panel/MarginContainer/HBoxContainer/Right/CenterContainer/Items"]
+layout_mode = 2
+text = "Test1"
+label_settings = ExtResource("2_b2mix")
+
+[node name="Label2" type="Label" parent="Panel/MarginContainer/HBoxContainer/Right/CenterContainer/Items"]
+layout_mode = 2
+text = "Test1"
+label_settings = ExtResource("2_b2mix")
+
+[node name="Label3" type="Label" parent="Panel/MarginContainer/HBoxContainer/Right/CenterContainer/Items"]
+layout_mode = 2
+text = "Test1"
+label_settings = ExtResource("2_b2mix")

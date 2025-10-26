@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://bfjd0cwaleh0b"]
 
-[ext_resource type="Script" path="res://ui/ui.gd" id="1_aqu2k"]
+[ext_resource type="Script" uid="uid://oe3ullx7xx7h" path="res://ui/ui.gd" id="1_aqu2k"]
 [ext_resource type="LabelSettings" uid="uid://tst8itchmjq" path="res://assets/label.tres" id="2_dnk1i"]
 [ext_resource type="LabelSettings" uid="uid://syl0qku71mfo" path="res://assets/red-label.tres" id="3_1d3im"]
 
@@ -26,6 +26,60 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("1_aqu2k")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="Left" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Score" type="Label" parent="MarginContainer/HBoxContainer/Left"]
+layout_mode = 2
+text = "Score: 0"
+label_settings = ExtResource("2_dnk1i")
+
+[node name="Upgrades" type="VBoxContainer" parent="MarginContainer/HBoxContainer/Left"]
+layout_mode = 2
+
+[node name="Right" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Quota" type="Label" parent="MarginContainer/HBoxContainer/Right"]
+layout_mode = 2
+text = "Quota: "
+label_settings = ExtResource("2_dnk1i")
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="TimeLeft" type="Label" parent="MarginContainer/HBoxContainer/Right"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0, 0, 1)
+theme_override_font_sizes/font_size = 32
+text = "Time Left: 0"
+label_settings = ExtResource("3_1d3im")
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Inventory" type="VBoxContainer" parent="MarginContainer/HBoxContainer/Right"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Label" type="Label" parent="MarginContainer/HBoxContainer/Right/Inventory"]
+layout_mode = 2
 
 [node name="MessagePanel" type="Panel" parent="."]
 layout_mode = 1
@@ -56,45 +110,3 @@ text = "Test"
 label_settings = ExtResource("2_dnk1i")
 horizontal_alignment = 1
 vertical_alignment = 1
-
-[node name="TimeLeft" type="Label" parent="."]
-layout_mode = 1
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -220.0
-offset_top = 20.0
-offset_right = -20.0
-offset_bottom = 70.0
-grow_horizontal = 0
-theme_override_colors/font_color = Color(1, 0, 0, 1)
-theme_override_font_sizes/font_size = 32
-text = "Time Left: 0
-"
-label_settings = ExtResource("3_1d3im")
-horizontal_alignment = 2
-vertical_alignment = 1
-
-[node name="Inventory" type="VBoxContainer" parent="."]
-layout_mode = 1
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -320.0
-offset_top = 90.0
-offset_right = -20.0
-offset_bottom = 140.0
-grow_horizontal = 0
-mouse_filter = 2
-
-[node name="Label" type="Label" parent="Inventory"]
-layout_mode = 2
-
-[node name="Score" type="Label" parent="."]
-layout_mode = 1
-offset_left = 20.0
-offset_top = 20.0
-offset_right = 220.0
-offset_bottom = 84.0
-text = "Score: 0"
-label_settings = ExtResource("2_dnk1i")

@@ -1,6 +1,6 @@
 [gd_scene load_steps=9 format=3 uid="uid://bleya7mqfp6v6"]
 
-[ext_resource type="Script" path="res://pause-screen/pause-screen.gd" id="1_473tb"]
+[ext_resource type="Script" uid="uid://dfu402otxl6vk" path="res://pause-screen/pause-screen.gd" id="1_473tb"]
 [ext_resource type="LabelSettings" uid="uid://tst8itchmjq" path="res://assets/label.tres" id="2_ocmrj"]
 [ext_resource type="FontFile" uid="uid://bmokuc7oo7370" path="res://assets/medodica/MedodicaRegular.otf" id="3_0ihti"]
 
@@ -24,12 +24,12 @@ corner_radius_bottom_left = 10
 corner_detail = 2
 anti_aliasing = false
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2uoof"]
-content_margin_left = 10.0
-content_margin_top = 10.0
-content_margin_right = 10.0
-content_margin_bottom = 10.0
-bg_color = Color(0.105882, 0.105882, 0.105882, 1)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_f670g"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.160269, 0.160269, 0.160269, 1)
 border_width_left = 5
 border_width_top = 5
 border_width_right = 5
@@ -41,12 +41,12 @@ corner_radius_bottom_left = 10
 corner_detail = 2
 anti_aliasing = false
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_f670g"]
-content_margin_left = 0.0
-content_margin_top = 0.0
-content_margin_right = 0.0
-content_margin_bottom = 0.0
-bg_color = Color(0.160269, 0.160269, 0.160269, 1)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2uoof"]
+content_margin_left = 10.0
+content_margin_top = 10.0
+content_margin_right = 10.0
+content_margin_bottom = 10.0
+bg_color = Color(0.105882, 0.105882, 0.105882, 1)
 border_width_left = 5
 border_width_top = 5
 border_width_right = 5
@@ -89,13 +89,20 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_ux6q5")
 
-[node name="Message" type="Label" parent="."]
+[node name="CenterContainer" type="CenterContainer" parent="Panel"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel/CenterContainer"]
+layout_mode = 2
+theme_override_constants/separation = 50
+
+[node name="Message" type="Label" parent="Panel/CenterContainer/VBoxContainer"]
+layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 64
 text = "Paused
@@ -104,23 +111,15 @@ label_settings = ExtResource("2_ocmrj")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="QuitButton" type="Button" parent="."]
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -60.0
-offset_top = -377.0
-offset_right = 65.0
-offset_bottom = -288.0
-grow_horizontal = 2
-grow_vertical = 0
+[node name="CenterContainer" type="CenterContainer" parent="Panel/CenterContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="QuitButton" type="Button" parent="Panel/CenterContainer/VBoxContainer/CenterContainer"]
+layout_mode = 2
 theme_override_fonts/font = ExtResource("3_0ihti")
 theme_override_font_sizes/font_size = 64
 theme_override_styles/normal = SubResource("StyleBoxFlat_e3341")
-theme_override_styles/hover = SubResource("StyleBoxFlat_2uoof")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_f670g")
+theme_override_styles/hover = SubResource("StyleBoxFlat_2uoof")
 theme_override_styles/focus = SubResource("StyleBoxFlat_ksyim")
 text = "Quit"

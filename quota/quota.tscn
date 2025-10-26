@@ -1,9 +1,10 @@
 [gd_scene load_steps=2 format=3 uid="uid://dsve5jxi3op64"]
 
-[ext_resource type="Script" path="res://quota/quota.gd" id="1_co7yq"]
+[ext_resource type="Script" uid="uid://ccom5gwbgdupm" path="res://quota/quota.gd" id="1_co7yq"]
 
 [node name="Quota" type="Node3D"]
 script = ExtResource("1_co7yq")
+total_rounds = 2
 
 [node name="Timer" type="Timer" parent="."]
 
