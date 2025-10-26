@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://cgwgn3d0bsk5b"]
+[gd_scene load_steps=29 format=3 uid="uid://cgwgn3d0bsk5b"]
 
 [ext_resource type="Script" uid="uid://cap4o38avfyh" path="res://scenes/main-scene.gd" id="1_bir4h"]
 [ext_resource type="PackedScene" uid="uid://b7kqgb07sf7gj" path="res://work-zone/work-zone.tscn" id="1_k2p32"]
@@ -28,20 +28,11 @@ sky_material = SubResource("ProceduralSkyMaterial_tcvn7")
 
 [sub_resource type="Environment" id="Environment_effs6"]
 background_mode = 1
-background_color = Color(0.0509804, 0.0509804, 0.0509804, 1)
+background_color = Color(0.003921569, 0.003921569, 0.003921569, 1)
 sky = SubResource("Sky_p0k0j")
 ambient_light_energy = 0.0
 tonemap_mode = 2
 glow_enabled = true
-
-[sub_resource type="Gradient" id="Gradient_5hslq"]
-colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_mq3um"]
-gradient = SubResource("Gradient_5hslq")
-fill = 1
-fill_from = Vector2(0.504854, 0.502427)
-fill_to = Vector2(0.949029, 0.883495)
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_vmclw"]
 
@@ -76,7 +67,6 @@ transform = Transform3D(1, -6.97574e-16, -1.52459e-23, -1.5246e-23, -4.37114e-08
 light_color = Color(1, 0.956863, 0.878431, 1)
 light_energy = 30.0
 light_indirect_energy = 0.0
-light_projector = SubResource("GradientTexture2D_mq3um")
 light_size = 10.0
 light_specular = 1.0
 shadow_enabled = true

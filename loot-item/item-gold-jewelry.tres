@@ -41,5 +41,5 @@ script = ExtResource("1_xxu1k")
 name = "gold jewelry"
 rarity = 5
 in_quota = true
-emission = 5.0
+emission = 2.0
 effects = Array[ExtResource("1_5flbu")]([SubResource("Resource_af001"), SubResource("Resource_omhy3"), SubResource("Resource_68ys2")])

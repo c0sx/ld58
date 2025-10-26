@@ -21,11 +21,12 @@ size = Vector3(0.8, 0.8, 0.8)
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nivwe"]
 emission_enabled = true
 emission = Color(1, 1, 1, 1)
+emission_energy_multiplier = 0.3
 emission_on_uv2 = true
 
 [sub_resource type="SphereMesh" id="SphereMesh_qai8r"]
 material = SubResource("StandardMaterial3D_nivwe")
-radial_segments = 6
+radial_segments = 8
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_w60ub"]
 bg_color = Color(0.0862745, 0.0862745, 0.0862745, 1)
@@ -65,6 +66,7 @@ shape = SubResource("BoxShape3D_t3a5r")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
+cast_shadow = 0
 mesh = SubResource("SphereMesh_qai8r")
 
 [node name="Sprite3D" type="Sprite3D" parent="."]

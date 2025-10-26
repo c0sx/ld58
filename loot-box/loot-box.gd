@@ -27,6 +27,7 @@ func _ready() -> void:
 		var new_material: StandardMaterial3D = active_material.duplicate(true)
 		new_material.resource_local_to_scene = true
 		new_material.emission = _select_color()
+		new_material.albedo_color = _select_color()
 		new_material.emission_energy_multiplier = _loot_item.emission
 		_mesh.material_override = new_material
 
@@ -82,10 +83,10 @@ func _play_pick_complete() -> void:
 	var stream = sounds.pick_random()
 	if not stream:
 		return
-		
+
 	var pitch_variation = randf_range(-0.05, 0.05)
 	var pitch_scale = 1.0 + pitch_variation
-	
+
 	SoundPool.play(_audio_stream_player, stream, pitch_scale)
 
 func _select_color() -> Color:
