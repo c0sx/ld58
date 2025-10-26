@@ -16,7 +16,6 @@ func apply(_item: LootItem, player: Player, _quota: Quota, _tube: Tube) -> void:
 	value = round(value / step) * step
 
 	if size + value < limit:
-		print("1 Increasing picking area by ", value)
 		player.increase_picking_area(value, limit)
 		return
 
@@ -26,8 +25,6 @@ func apply(_item: LootItem, player: Player, _quota: Quota, _tube: Tube) -> void:
 	value = round(value / step) * step
 
 	if value > 0:
-		print("2 Increasing picking area by ", value)
 		player.increase_picking_area(value, limit)
 	else:
-		print("3 loot area score: ", score)
 		player.add_score(score)
